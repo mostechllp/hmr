@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>HMR | HR Dashboard - Mobile Friendly</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ========== THEME VARIABLES ========== */
+        :root {
+            --green: #2ecc71;
+            --green-dark: #1a9e52;
+            --green-light: #d4f7e4;
+            --green-glow: rgba(46, 204, 113, 0.12);
+            --red: #e74c3c;
+            --red-light: #fee2e2;
+            --amber: #f39c12;
+            --blue: #3498db;
+            --purple: #9b59b6;
+            --yellow: #f1c40f;
+            --yellow-light: #fff9e6;
+            
+            --bg: #f4f7f5;
+            --surface: #ffffff;
+            --surface2: #f0f4f1;
+            --border: #e2ebe5;
+            --text: #1a2e22;
+            --text-secondary: #4a5f52;
+            --muted: #7a9486;
+            --sidebar-bg: #1a2e22;
+            --sidebar-text: rgba(255, 255, 255, 0.7);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+            --radius: 18px;
+            --radius-sm: 10px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f1412;
+            --surface: #1a241f;
+            --surface2: #1f2c26;
+            --border: #2a3a32;
+            --text: #ecfdf5;
+            --text-secondary: #b8d9cc;
+            --muted: #7e9a8c;
+            --sidebar-bg: #0a100e;
+            --sidebar-text: rgba(255, 255, 255, 0.65);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* ========== LAYOUT ========== */
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: 72px;
+            background: var(--sidebar-bg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 200;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .sidebar:hover {
+            width: 260px;
+        }
+
+        .sidebar-logo {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--green);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 20px;
+            margin: 4px 8px;
+            border-radius: 12px;
+            color: var(--sidebar-text);
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .nav-item i {
+            width: 24px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .nav-item span {
+            opacity: 0;
+            transition: opacity 0.2s 0.05s;
+        }
+
+        .sidebar:hover .nav-item span {
+            opacity: 1;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: rgba(46, 204, 113, 0.2);
+            color: #fff;
+        }
+
+        .nav-item.active i {
+            color: var(--green);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 16px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .user-details {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .user-details h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .user-details p {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar:hover .user-details {
+            opacity: 1;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main {
+            flex: 1;
+            margin-left: 72px;
+            min-width: 0;
+            width: calc(100% - 72px);
+            overflow-x: hidden;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .header-title h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .header-title p {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .theme-toggle {
+            display: flex;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .theme-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .theme-btn.active {
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            color: var(--green);
+        }
+
+        .date-badge {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* ========== CONTENT ========== */
+        .content {
+            padding: 24px;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        /* ========== WELCOME BANNER ========== */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--green-dark), var(--green));
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-text h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .welcome-text p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+        }
+
+        .welcome-stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .wstat {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 8px 16px;
+            border-radius: 14px;
+        }
+
+        .wstat-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .wstat-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+        }
+
+        /* ========== STAT CARDS ========== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .stat-icon.green-bg { background: var(--green-glow); color: var(--green); }
+        .stat-icon.blue-bg { background: rgba(52, 152, 219, 0.1); color: var(--blue); }
+        .stat-icon.amber-bg { background: rgba(243, 156, 18, 0.1); color: var(--amber); }
+        .stat-icon.red-bg { background: rgba(231, 76, 60, 0.1); color: var(--red); }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .stat-number.green { color: var(--green-dark); }
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* ========== ANALYTICS ROW ========== */
+        .analytics-row {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .chart-card, .punch-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+        }
+
+        .chart-container {
+            height: 180px;
+            position: relative;
+        }
+
+        .punch-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .punch-stat {
+            background: var(--surface2);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .punch-stat-value {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .punch-stat-value.green { color: var(--green-dark); }
+
+        /* ========== FILES TABLE ========== */
+        .files-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow-x: auto;
+        }
+
+        .files-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 6px 14px;
+        }
+
+        .search-box input {
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 12px;
+            color: var(--text);
+            width: 160px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: var(--surface2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 12px 16px;
+            font-size: 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .pagination {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .page-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+        }
+
+        .page-btn.active {
+            background: var(--green);
+            border-color: var(--green);
+            color: #fff;
+        }
+
+        /* ========== FLOATING ICON STYLES ========== */
+        .floating-icon {
+            position: fixed;
+            width: 56px;
+            height: 56px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, var(--purple), #8e44ad);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: white;
+            font-size: 24px;
+            touch-action: manipulation;
+        }
+        
+        .floating-icon.notes-icon {
+            background: linear-gradient(135deg, var(--yellow), #e67e22);
+        }
+        
+        .floating-icon:active {
+            transform: scale(0.95);
+        }
+        
+        .floating-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 20px;
+            padding: 2px 6px;
+            min-width: 20px;
+            text-align: center;
+            border: 2px solid var(--surface);
+        }
+
+        /* ========== WIDGET PANEL (EXPANDED) ========== */
+        .widget-panel {
+            position: fixed;
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            z-index: 1001;
+            width: 320px;
+            max-width: calc(100vw - 32px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .widget-panel.hidden {
+            display: none;
+        }
+        
+        .widget-header {
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: grab;
+            user-select: none;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            touch-action: manipulation;
+        }
+        
+        .widget-header:active {
+            cursor: grabbing;
+        }
+        
+        .widget-header.notes-header {
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+        }
+        
+        .widget-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+        }
+        
+        .widget-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .widget-actions button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 12px;
+            touch-action: manipulation;
+        }
+        
+        .widget-actions button:active {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        .widget-content {
+            padding: 12px;
+            max-height: 380px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .task-list, .notes-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .task-item {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .task-item input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--green);
+        }
+        
+        .task-text {
+            flex: 1;
+            font-size: 12px;
+            color: var(--text);
+            word-break: break-word;
+        }
+        
+        .task-text.completed {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+        
+        .task-delete {
+            background: none;
+            border: none;
+            color: var(--red);
+            cursor: pointer;
+            opacity: 0.6;
+            padding: 4px;
+            touch-action: manipulation;
+        }
+        
+        .add-task-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .add-task-form input {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            font-size: 12px;
+            outline: none;
+            color: var(--text);
+        }
+        
+        .add-task-form button {
+            background: var(--green);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 0 16px;
+            color: #fff;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        
+        .note-item {
+            background: var(--yellow-light);
+            border-left: 4px solid var(--yellow);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        [data-theme="dark"] .note-item {
+            background: rgba(241, 196, 15, 0.15);
+        }
+        
+        .note-text {
+            font-size: 12px;
+            color: var(--text);
+            word-break: break-word;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .note-date {
+            font-size: 9px;
+            color: var(--muted);
+            display: block;
+        }
+        
+        .note-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            color: var(--red);
+            cursor: pointer;
+            opacity: 0.5;
+            padding: 4px;
+            touch-action: manipulation;
+        }
+        
+        .add-note-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .add-note-form textarea {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            color: var(--text);
+            resize: vertical;
+            outline: none;
+        }
+        
+        .add-note-form button {
+            background: var(--yellow);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 8px;
+            color: #1a2e22;
+            font-weight: 600;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        
+        .widget-footer {
+            padding: 10px 12px;
+            border-top: 1px solid var(--border);
+            font-size: 10px;
+            color: var(--muted);
+            text-align: center;
+            background: var(--surface2);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 260px;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+            .menu-btn {
+                display: block;
+            }
+            .stats-grid { grid-template-columns: 1fr; }
+            .analytics-row { grid-template-columns: 1fr; }
+            .content { padding: 16px; }
+            .date-badge { display: none; }
+            .welcome-banner { flex-direction: column; text-align: center; }
+            .floating-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 22px;
+            }
+            .widget-panel {
+                width: calc(100vw - 32px);
+                max-width: 340px;
+            }
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 150;
+        }
+        .overlay.show { display: block; }
+        
+        /* Dragging state */
+        .dragging {
+            opacity: 0.8;
+            cursor: grabbing !important;
+            transition: none;
+        }
+    </style>
+</head>
+<body>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-text">H<span>MR</span></div>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Employees</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-briefcase"></i>
+            <span>Organizations</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-file-signature"></i>
+            <span>Agreements</span>
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">HR</div>
+                <div class="user-details">
+                    <h4>HR Admin</h4>
+                    <p>Administrator</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                <div class="header-title">
+                    <h1>Dashboard</h1>
+                    <p>HR Command Center</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="date-badge"><i class="far fa-calendar-alt"></i><span id="liveDate"></span></div>
+                <div class="theme-toggle">
+                    <button class="theme-btn" id="lightBtn" onclick="setTheme('light')"><i class="fas fa-sun"></i></button>
+                    <button class="theme-btn" id="darkBtn" onclick="setTheme('dark')"><i class="fas fa-moon"></i></button>
+                </div>
+                <div class="avatar">HR</div>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="welcome-banner">
+                <div class="welcome-text"><h2>Welcome, HR! 👋</h2><p>Here's what's happening today.</p></div>
+                <div class="welcome-stats">
+                    <div class="wstat"><div class="wstat-number">33</div><div class="wstat-label">Total Staff</div></div>
+                    <div class="wstat"><div class="wstat-number">0</div><div class="wstat-label">Punched In</div></div>
+                    <div class="wstat"><div class="wstat-number">33</div><div class="wstat-label">Absent</div></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-header"><div class="stat-icon green-bg"><i class="fas fa-users"></i></div></div><div class="stat-number green">33</div><div class="stat-label">Total Employees</div></div>
+                <div class="stat-card"><div class="stat-header"><div class="stat-icon blue-bg"><i class="fas fa-fingerprint"></i></div></div><div class="stat-number blue">0</div><div class="stat-label">Punched In Today</div></div>
+                <div class="stat-card"><div class="stat-header"><div class="stat-icon amber-bg"><i class="fas fa-clock"></i></div></div><div class="stat-number amber">0</div><div class="stat-label">Late Arrivals</div></div>
+                <div class="stat-card"><div class="stat-header"><div class="stat-icon red-bg"><i class="fas fa-user-slash"></i></div></div><div class="stat-number red">33</div><div class="stat-label">Absent Today</div></div>
+            </div>
+
+            <div class="analytics-row">
+                <div class="chart-card"><div class="chart-container"><canvas id="attendanceChart"></canvas></div></div>
+                <div class="punch-card"><div class="punch-stats"><div class="punch-stat"><div class="punch-stat-label">Today In</div><div class="punch-stat-value green">0</div></div><div class="punch-stat"><div class="punch-stat-label">Yesterday In</div><div class="punch-stat-value green">14</div></div></div></div>
+            </div>
+
+            <div class="files-section">
+                <div class="files-header">
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search records..." onkeyup="filterTable()"></div>
+                </div>
+                <div class="table-wrapper">\n<table>\n<thead>\n<tr><th>S.L.NO.</th><th>Document Name</th><th>Folder</th><th>Expiry Date</th></tr>\n</thead>\n<tbody id="tableBody"></tbody>\n</table>\n</div>
+                <div class="pagination"><span id="pageInfo"></span><div class="page-buttons"><button class="page-btn" onclick="changePage(-1)" id="prevBtn">‹</button><button class="page-btn active" onclick="goPage(1)" id="page1Btn">1</button><button class="page-btn" onclick="goPage(2)" id="page2Btn">2</button><button class="page-btn" onclick="changePage(1)" id="nextBtn">›</button></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Icons -->
+<div id="taskFloatingIcon" class="floating-icon" style="bottom: 100px; right: 20px;">
+    <i class="fas fa-list-check"></i>
+    <span id="taskFloatingBadge" class="floating-badge">0</span>
+</div>
+<div id="notesFloatingIcon" class="floating-icon notes-icon" style="bottom: 30px; right: 20px;">
+    <i class="fas fa-sticky-note"></i>
+    <span id="notesFloatingBadge" class="floating-badge">0</span>
+</div>
+
+<!-- Task Widget Panel -->
+<div id="taskWidgetPanel" class="widget-panel hidden" style="bottom: 100px; right: 90px;">
+    <div class="widget-header" id="taskDragHandle">
+        <h3><i class="fas fa-list-check"></i> Task Manager</h3>
+        <div class="widget-actions">
+            <button id="clearTasksBtn"><i class="fas fa-check-double"></i></button>
+            <button id="collapseTaskPanelBtn"><i class="fas fa-compress"></i></button>
+        </div>
+    </div>
+    <div class="widget-content">
+        <ul class="task-list" id="taskList"></ul>
+        <div class="add-task-form">
+            <input type="text" id="newTaskInput" placeholder="Add a new task..." onkeypress="if(event.key==='Enter') addTask()">
+            <button onclick="addTask()"><i class="fas fa-plus"></i></button>
+        </div>
+    </div>
+    <div class="widget-footer"><span id="taskCount">0</span> tasks pending</div>
+</div>
+
+<!-- Notes Widget Panel -->
+<div id="notesWidgetPanel" class="widget-panel hidden" style="bottom: 30px; right: 90px;">
+    <div class="widget-header notes-header" id="notesDragHandle">
+        <h3><i class="fas fa-sticky-note"></i> Sticky Notes</h3>
+        <div class="widget-actions">
+            <button id="collapseNotePanelBtn"><i class="fas fa-compress"></i></button>
+        </div>
+    </div>
+    <div class="widget-content">
+        <ul class="notes-list" id="notesList"></ul>
+        <div class="add-note-form">
+            <textarea id="newNoteInput" rows="2" placeholder="Write a note..."></textarea>
+            <button onclick="addNote()"><i class="fas fa-save"></i> Add Note</button>
+        </div>
+    </div>
+    <div class="widget-footer"><span id="notesCount">0</span> notes</div>
+</div>
+
+<script>
+    // Documents Data
+    const documents = [
+        { name: "mpdf", folder: "Documents", expiry: "" }, { name: "mpdf", folder: "Documents", expiry: "" },
+        { name: "Gokulpdf", folder: "Reports", expiry: "2025-06-30" }, { name: "THESAY Pharma License", folder: "Legal", expiry: "2026-01-20" },
+        { name: "asxas.jpg", folder: "Images", expiry: "2025-04-18" }, { name: "sdf.jpg", folder: "Images", expiry: "2025-11-05" },
+        { name: "zxcx.jpg", folder: "Images", expiry: "2024-10-22" }, { name: "Documents.jpg", folder: "My Docs", expiry: "2025-12-30" },
+        { name: "Annual_Report.pdf", folder: "Finance", expiry: "2026-03-15" }, { name: "Employee_Handbook.pdf", folder: "HR", expiry: "2025-09-01" }
+    ];
+    let filteredDocs = [...documents];
+    let currentPage = 1, perPage = 10;
+    let attendanceChart = null;
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('hr-theme', theme);
+        document.getElementById('lightBtn').classList.toggle('active', theme === 'light');
+        document.getElementById('darkBtn').classList.toggle('active', theme === 'dark');
+        if (attendanceChart) updateChartColors();
+    }
+    function updateChartColors() {
+        if (!attendanceChart) return;
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        attendanceChart.options.scales.x.ticks.color = isDark ? '#7e9a8c' : '#7a9486';
+        attendanceChart.options.scales.y.ticks.color = isDark ? '#7e9a8c' : '#7a9486';
+        attendanceChart.update();
+    }
+    function initChart() {
+        const canvas = document.getElementById('attendanceChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        attendanceChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], datasets: [{ data: [2, 12, 15, 10, 6, 4, 0], borderColor: '#2ecc71', borderWidth: 3, fill: false, tension: 0.4, pointBackgroundColor: '#2ecc71' }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { min: 0, max: 20 } } }
+        });
+        updateChartColors();
+    }
+    function renderTable() {
+        const start = (currentPage - 1) * perPage;
+        const pageDocs = filteredDocs.slice(start, start + perPage);
+        document.getElementById('tableBody').innerHTML = pageDocs.map((doc, i) => `<tr><td>${start + i + 1}</td><td>${doc.name}</td><td>${doc.folder}</td><td>${doc.expiry || 'No Expiry'}</td></tr>`).join('');
+        const total = filteredDocs.length;
+        document.getElementById('pageInfo').textContent = `Showing ${total ? start + 1 : 0}-${Math.min(start + perPage, total)} of ${total}`;
+        document.getElementById('page1Btn').classList.toggle('active', currentPage === 1);
+        document.getElementById('page2Btn').classList.toggle('active', currentPage === 2);
+    }
+    function filterTable() {
+        filteredDocs = documents.filter(d => d.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase()));
+        currentPage = 1; renderTable();
+    }
+    function changePage(d) { let np = currentPage + d; if (np >= 1 && np <= Math.ceil(filteredDocs.length / perPage)) { currentPage = np; renderTable(); } }
+    function goPage(p) { currentPage = p; renderTable(); }
+
+    let tasks = JSON.parse(localStorage.getItem('hrTasks')) || [
+        { text: "Review employee timesheets", completed: false },
+        { text: "Prepare monthly HR report", completed: false },
+        { text: "Schedule interview for Senior Developer", completed: false }
+    ];
+    function renderTasks() {
+        const list = document.getElementById('taskList');
+        list.innerHTML = tasks.map((task, i) => `<li class="task-item"><input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${i})"><span class="task-text ${task.completed ? 'completed' : ''}">${escapeHtml(task.text)}</span><button class="task-delete" onclick="deleteTask(${i})"><i class="fas fa-trash"></i></button></li>`).join('');
+        const pending = tasks.filter(t => !t.completed).length;
+        document.getElementById('taskCount').textContent = pending;
+        document.getElementById('taskFloatingBadge').textContent = pending;
+        localStorage.setItem('hrTasks', JSON.stringify(tasks));
+    }
+    function toggleTask(idx) { tasks[idx].completed = !tasks[idx].completed; renderTasks(); }
+    function deleteTask(idx) { tasks.splice(idx, 1); renderTasks(); }
+    function addTask() {
+        const input = document.getElementById('newTaskInput');
+        if (input.value.trim()) { tasks.push({ text: input.value.trim(), completed: false }); input.value = ''; renderTasks(); }
+    }
+    function clearCompletedTasks() { tasks = tasks.filter(t => !t.completed); renderTasks(); }
+
+    let notes = JSON.parse(localStorage.getItem('hrNotes')) || [
+        { text: "Meeting with CEO at 3 PM tomorrow", date: new Date().toLocaleDateString() },
+        { text: "Prepare Q2 budget presentation", date: new Date().toLocaleDateString() }
+    ];
+    function renderNotes() {
+        const list = document.getElementById('notesList');
+        list.innerHTML = notes.map((note, i) => `<li class="note-item"><div class="note-text">${escapeHtml(note.text)}</div><small class="note-date">${note.date}</small><button class="note-delete" onclick="deleteNote(${i})"><i class="fas fa-times"></i></button></li>`).join('');
+        document.getElementById('notesCount').textContent = notes.length;
+        document.getElementById('notesFloatingBadge').textContent = notes.length;
+        localStorage.setItem('hrNotes', JSON.stringify(notes));
+    }
+    function deleteNote(idx) { notes.splice(idx, 1); renderNotes(); }
+    function addNote() {
+        const textarea = document.getElementById('newNoteInput');
+        if (textarea.value.trim()) { notes.unshift({ text: textarea.value.trim(), date: new Date().toLocaleDateString() }); textarea.value = ''; renderNotes(); }
+    }
+    function escapeHtml(text) { return text.replace(/[&<>]/g, function(m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]; }); }
+
+    // Get elements
+    const taskIcon = document.getElementById('taskFloatingIcon');
+    const taskPanel = document.getElementById('taskWidgetPanel');
+    const notesIcon = document.getElementById('notesFloatingIcon');
+    const notesPanel = document.getElementById('notesWidgetPanel');
+    
+    // Simple open/close functions - no drag interference
+    function showTaskPanel(e) {
+        if (e) e.stopPropagation();
+        taskPanel.classList.remove('hidden');
+        taskIcon.style.display = 'none';
+    }
+    
+    function hideTaskPanel() {
+        taskPanel.classList.add('hidden');
+        taskIcon.style.display = 'flex';
+    }
+    
+    function showNotesPanel(e) {
+        if (e) e.stopPropagation();
+        notesPanel.classList.remove('hidden');
+        notesIcon.style.display = 'none';
+    }
+    
+    function hideNotesPanel() {
+        notesPanel.classList.add('hidden');
+        notesIcon.style.display = 'flex';
+    }
+    
+    // Add click listeners - simple and direct
+    taskIcon.addEventListener('click', showTaskPanel);
+    notesIcon.addEventListener('click', showNotesPanel);
+    document.getElementById('collapseTaskPanelBtn').addEventListener('click', hideTaskPanel);
+    document.getElementById('collapseNotePanelBtn').addEventListener('click', hideNotesPanel);
+    document.getElementById('clearTasksBtn').addEventListener('click', clearCompletedTasks);
+    
+    // Draggable functionality for panels only (icons are not draggable to avoid conflicts)
+    function makePanelDraggable(panel, handleId) {
+        const handle = document.getElementById(handleId);
+        if (!handle) return;
+        
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
+        
+        function onMouseDown(e) {
+            // Don't drag if clicking on buttons
+            if (e.target.closest('.widget-actions')) return;
+            e.preventDefault();
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = panel.getBoundingClientRect();
+            startLeft = rect.left;
+            startTop = rect.top;
+            panel.style.cursor = 'grabbing';
+            panel.classList.add('dragging');
+        }
+        
+        function onTouchStart(e) {
+            if (e.target.closest('.widget-actions')) return;
+            e.preventDefault();
+            isDragging = true;
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            const rect = panel.getBoundingClientRect();
+            startLeft = rect.left;
+            startTop = rect.top;
+            panel.classList.add('dragging');
+        }
+        
+        function onMouseMove(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            let newLeft = startLeft + (e.clientX - startX);
+            let newTop = startTop + (e.clientY - startY);
+            newLeft = Math.max(10, Math.min(window.innerWidth - panel.offsetWidth - 10, newLeft));
+            newTop = Math.max(10, Math.min(window.innerHeight - panel.offsetHeight - 10, newTop));
+            panel.style.left = newLeft + 'px';
+            panel.style.right = 'auto';
+            panel.style.top = newTop + 'px';
+            panel.style.bottom = 'auto';
+        }
+        
+        function onTouchMove(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            let newLeft = startLeft + (touch.clientX - startX);
+            let newTop = startTop + (touch.clientY - startY);
+            newLeft = Math.max(10, Math.min(window.innerWidth - panel.offsetWidth - 10, newLeft));
+            newTop = Math.max(10, Math.min(window.innerHeight - panel.offsetHeight - 10, newTop));
+            panel.style.left = newLeft + 'px';
+            panel.style.right = 'auto';
+            panel.style.top = newTop + 'px';
+            panel.style.bottom = 'auto';
+        }
+        
+        function onMouseUp() {
+            isDragging = false;
+            panel.style.cursor = '';
+            panel.classList.remove('dragging');
+        }
+        
+        handle.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+        
+        handle.addEventListener('touchstart', onTouchStart, { passive: false });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onMouseUp);
+    }
+    
+    // Make panels draggable
+    makePanelDraggable(taskPanel, 'taskDragHandle');
+    makePanelDraggable(notesPanel, 'notesDragHandle');
+    
+    function toggleSidebar() { 
+        document.getElementById('sidebar').classList.toggle('open'); 
+        document.getElementById('overlay').classList.toggle('show'); 
+    }
+    function closeSidebar() { 
+        document.getElementById('sidebar').classList.remove('open'); 
+        document.getElementById('overlay').classList.remove('show'); 
+    }
+    document.getElementById('liveDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    
+    const savedTheme = localStorage.getItem('hr-theme') || 'light';
+    setTheme(savedTheme);
+    initChart();
+    renderTable();
+    renderTasks();
+    renderNotes();
+    
+    // Initially hide panels, show icons
+    hideTaskPanel();
+    hideNotesPanel();
+</script>
+</body>
+</html>
