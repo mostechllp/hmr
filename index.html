@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="theme-color" content="#2ecc71">
   <title>HR Login | Human Resource Management</title>
   <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -420,6 +424,7 @@
         opacity: 0;
         transform: translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -431,12 +436,12 @@
       .brand-side {
         display: none;
       }
-      
+
       .form-side {
         flex: 1;
         padding: 24px;
       }
-      
+
       .login-card {
         max-width: 100%;
       }
@@ -451,15 +456,15 @@
       .form-side {
         padding: 20px;
       }
-      
+
       .login-header h2 {
         font-size: 28px;
       }
-      
+
       .input-wrapper input {
         padding: 12px 16px 12px 44px;
       }
-      
+
       .theme-btn {
         width: 34px;
         height: 34px;
@@ -478,11 +483,17 @@
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="login-container">
     <!-- Left Side - Branding with Logo -->
@@ -493,7 +504,7 @@
         </div>
         <h1>Human Resource Management</h1>
         <p>Seamlessly manage attendance, employees, and organization reports in one place.</p>
-        
+
         <div class="features-list">
           <div class="feature-item">
             <i class="fas fa-users"></i>
@@ -575,11 +586,11 @@
     function setTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('hr-theme', theme);
-      
+
       // Update active state on buttons
       const lightBtn = document.getElementById('lightBtn');
       const darkBtn = document.getElementById('darkBtn');
-      
+
       if (theme === 'light') {
         lightBtn.classList.add('active');
         darkBtn.classList.remove('active');
@@ -599,7 +610,7 @@
       const icon = isSuccess ? '<i class="fas fa-check-circle" style="color: var(--green);"></i>' : '<i class="fas fa-exclamation-triangle" style="color: var(--red);"></i>';
       toast.innerHTML = `${icon} ${message}`;
       document.body.appendChild(toast);
-      
+
       setTimeout(() => {
         if (toast && toast.parentNode) toast.remove();
       }, 3000);
@@ -608,7 +619,7 @@
     // Handle Login with loading state
     async function handleLogin(event) {
       event.preventDefault();
-      
+
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const rememberMe = document.getElementById('rememberMe').checked;
@@ -621,7 +632,7 @@
         document.getElementById('email').focus();
         return;
       }
-      
+
       if (!password) {
         showToast('Please enter your password', false);
         document.getElementById('password').focus();
@@ -652,9 +663,9 @@
           localStorage.removeItem('hr-remembered');
           localStorage.removeItem('hr-email');
         }
-        
+
         showToast('Login successful! Redirecting to dashboard...', true);
-        
+
         setTimeout(() => {
           window.location.href = 'dashboard.html';
         }, 1000);
@@ -663,12 +674,16 @@
         signinBtn.innerHTML = originalContent;
         signinBtn.classList.remove('loading');
         showToast('Invalid email or password. Please try again.', false);
-        
+
         // Shake effect on form
         const loginCard = document.querySelector('.login-card');
         loginCard.style.transform = 'translateX(5px)';
-        setTimeout(() => { loginCard.style.transform = 'translateX(-5px)'; }, 50);
-        setTimeout(() => { loginCard.style.transform = 'translateX(0)'; }, 100);
+        setTimeout(() => {
+          loginCard.style.transform = 'translateX(-5px)';
+        }, 50);
+        setTimeout(() => {
+          loginCard.style.transform = 'translateX(0)';
+        }, 100);
       }
     }
 
@@ -676,7 +691,7 @@
     function forgotPassword(event) {
       event.preventDefault();
       const email = document.getElementById('email').value.trim();
-      
+
       if (email && email.includes('@')) {
         showToast(`Password reset link has been sent to ${email}`, true);
       } else {
@@ -690,7 +705,7 @@
       // Load theme
       const savedTheme = localStorage.getItem('hr-theme') || 'light';
       setTheme(savedTheme);
-      
+
       // Load remembered credentials
       const remembered = localStorage.getItem('hr-remembered');
       if (remembered === 'true') {
@@ -725,7 +740,7 @@
 
     // Initialize
     loadSavedPreferences();
-    
+
     // Optional: Add subtle animation on page load
     window.addEventListener('load', () => {
       document.querySelector('.login-card').style.opacity = '0';
@@ -738,4 +753,5 @@
     });
   </script>
 </body>
+
 </html>
