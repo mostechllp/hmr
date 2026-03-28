@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>HMR | HR Dashboard - Mobile Friendly</title>
+    <title>HMR | HR Dashboard - Complete</title>
     <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 -->
@@ -97,22 +97,26 @@
         }
 
         .sidebar-logo {
-            padding: 24px 20px;
+            padding: 20px 16px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             margin-bottom: 20px;
-            white-space: nowrap;
-            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .logo-text {
-            font-size: 22px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.5px;
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: white;
+            padding: 4px;
         }
-
-        .logo-text span {
-            color: var(--green);
+        
+        .sidebar:hover .logo-img {
+            width: 50px;
+            height: 50px;
         }
 
         .nav-item {
@@ -431,7 +435,7 @@
         /* ========== ANALYTICS ROW ========== */
         .analytics-row {
             display: grid;
-            grid-template-columns: 1fr 340px;
+            grid-template-columns: 1fr 420px;
             gap: 18px;
             margin-bottom: 24px;
         }
@@ -448,43 +452,172 @@
             position: relative;
         }
 
-        .punch-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 18px;
+        /* Punch Activity Styles */
+        .punch-activity {
+            width: 100%;
         }
-
-        .punch-stat {
-            background: var(--surface2);
-            border-radius: var(--radius-sm);
+        
+        .activity-header {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        
+        .punch-chart-container {
+            height: 180px;
+            margin-bottom: 15px;
+        }
+        
+        .punch-legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        
+        .legend-dot.green { background: #22c55e; }
+        .legend-dot.red { background: #ef4444; }
+        
+        .punch-data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .punch-data-table th,
+        .punch-data-table td {
             padding: 10px;
             text-align: center;
+            border-bottom: 1px solid var(--border);
         }
-
-        .punch-stat-value {
-            font-size: 22px;
-            font-weight: 800;
+        
+        .punch-data-table th {
+            font-weight: 600;
+            color: var(--muted);
+            font-size: 12px;
         }
+        
+        .punch-data-table td {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .punch-data-table td.green { color: #22c55e; }
+        .punch-data-table td.red { color: #ef4444; }
 
-        .punch-stat-value.green { color: var(--green-dark); }
-
-        /* ========== FILES TABLE ========== */
+        /* ========== ORGANIZATION FILES SECTION ========== */
         .files-section {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            overflow-x: auto;
+            overflow: hidden;
         }
 
         .files-header {
-            padding: 16px 20px;
+            padding: 20px 24px;
             border-bottom: 1px solid var(--border);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        
+        .folder-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+        
+        .folder-tab {
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: var(--surface2);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        
+        .folder-tab:hover {
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+        
+        .folder-tab.active {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+        
+        .files-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .entries-select {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        .entries-select select {
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--text);
+            cursor: pointer;
+        }
+        
+        .add-btn {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .add-btn:hover {
+            background: var(--green-dark);
+            transform: translateY(-1px);
+        }
+        
+        .search-wrapper {
+            display: flex;
+            align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .search-box {
@@ -505,37 +638,69 @@
             color: var(--text);
             width: 160px;
         }
-
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        
+        .action-btn.view {
+            color: var(--blue);
+        }
+        
+        .action-btn.edit {
+            color: var(--amber);
+        }
+        
+        .action-btn.delete {
+            color: var(--red);
+        }
+        
+        .action-btn:hover {
+            background: var(--surface2);
+            transform: scale(1.1);
+        }
+        
         .table-wrapper {
             overflow-x: auto;
+            padding: 0 24px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 500px;
+            min-width: 600px;
         }
 
         th {
             text-align: left;
             padding: 12px 16px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 600;
             color: var(--muted);
             background: var(--surface2);
             border-bottom: 1px solid var(--border);
         }
 
         td {
-            padding: 12px 16px;
-            font-size: 12px;
+            padding: 14px 16px;
+            font-size: 13px;
             border-bottom: 1px solid var(--border);
             color: var(--text-secondary);
         }
 
         .pagination {
-            padding: 12px 20px;
+            padding: 16px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -545,13 +710,19 @@
             font-size: 12px;
         }
 
+        .page-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        
         .page-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             border: 1px solid var(--border);
             background: var(--surface);
             cursor: pointer;
+            font-size: 12px;
         }
 
         .page-btn.active {
@@ -602,7 +773,7 @@
             border: 2px solid var(--surface);
         }
 
-        /* ========== WIDGET PANEL (EXPANDED) ========== */
+        /* ========== WIDGET PANEL ========== */
         .widget-panel {
             position: fixed;
             background: var(--surface);
@@ -665,18 +836,12 @@
             border-radius: 6px;
             transition: all 0.2s;
             font-size: 12px;
-            touch-action: manipulation;
-        }
-        
-        .widget-actions button:active {
-            background: rgba(255, 255, 255, 0.5);
         }
         
         .widget-content {
             padding: 12px;
             max-height: 380px;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
         }
         
         .task-list, .notes-list {
@@ -707,7 +872,6 @@
             flex: 1;
             font-size: 12px;
             color: var(--text);
-            word-break: break-word;
         }
         
         .task-text.completed {
@@ -720,9 +884,6 @@
             border: none;
             color: var(--red);
             cursor: pointer;
-            opacity: 0.6;
-            padding: 4px;
-            touch-action: manipulation;
         }
         
         .add-task-form {
@@ -751,7 +912,6 @@
             padding: 0 16px;
             color: #fff;
             cursor: pointer;
-            touch-action: manipulation;
         }
         
         .note-item {
@@ -763,15 +923,9 @@
             position: relative;
         }
         
-        [data-theme="dark"] .note-item {
-            background: rgba(241, 196, 15, 0.15);
-        }
-        
         .note-text {
             font-size: 12px;
             color: var(--text);
-            word-break: break-word;
-            line-height: 1.5;
             margin-bottom: 8px;
         }
         
@@ -789,9 +943,6 @@
             border: none;
             color: var(--red);
             cursor: pointer;
-            opacity: 0.5;
-            padding: 4px;
-            touch-action: manipulation;
         }
         
         .add-note-form {
@@ -823,7 +974,6 @@
             color: #1a2e22;
             font-weight: 600;
             cursor: pointer;
-            touch-action: manipulation;
         }
         
         .widget-footer {
@@ -864,6 +1014,13 @@
                 width: calc(100vw - 32px);
                 max-width: 340px;
             }
+            .files-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-wrapper {
+                justify-content: space-between;
+            }
         }
         
         .overlay {
@@ -875,11 +1032,71 @@
         }
         .overlay.show { display: block; }
         
-        /* Dragging state */
         .dragging {
             opacity: 0.8;
             cursor: grabbing !important;
-            transition: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+        }
+        
+        .modal-content h3 {
+            margin-bottom: 16px;
+        }
+        
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface2);
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .modal-buttons button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .modal-buttons button.confirm {
+            background: var(--green);
+            color: white;
+        }
+        
+        .modal-buttons button.cancel {
+            background: var(--surface2);
+            color: var(--text);
         }
     </style>
 </head>
@@ -888,7 +1105,7 @@
 <div class="app">
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <div class="logo-text">H<span>MR</span></div>
+            <img src="https://violet-leopard-500489.hostingersite.com/hr/public/assets/images/hr-logo2.jpg" alt="HMR Logo" class="logo-img">
         </div>
         <div class="nav-item active">
             <i class="fas fa-chart-line"></i>
@@ -905,6 +1122,22 @@
         <div class="nav-item">
             <i class="fas fa-file-signature"></i>
             <span>Agreements</span>
+        </div>
+        <div class="nav-item">
+            <i class="fa-solid fa-align-right"></i>
+            <span>Attentance</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-calendar-check"></i>
+            <span>Leaves</span>
+        </div>
+        <div class="nav-item">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Reports</span>
+        </div>
+        <div class="nav-item">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
         </div>
         <div class="sidebar-footer">
             <div class="user-info">
@@ -927,7 +1160,7 @@
                 </div>
             </div>
             <div class="header-right">
-                <div class="date-badge"><i class="far fa-calendar-alt"></i><span id="liveDate"></span></div>
+                <div class="date-badge"><i class="far fa-calendar-alt"></i> <span id="liveDate"></span></div>
                 <div class="theme-toggle">
                     <button class="theme-btn" id="lightBtn" onclick="setTheme('light')"><i class="fas fa-sun"></i></button>
                     <button class="theme-btn" id="darkBtn" onclick="setTheme('dark')"><i class="fas fa-moon"></i></button>
@@ -954,16 +1187,82 @@
             </div>
 
             <div class="analytics-row">
-                <div class="chart-card"><div class="chart-container"><canvas id="attendanceChart"></canvas></div></div>
-                <div class="punch-card"><div class="punch-stats"><div class="punch-stat"><div class="punch-stat-label">Today In</div><div class="punch-stat-value green">0</div></div><div class="punch-stat"><div class="punch-stat-label">Yesterday In</div><div class="punch-stat-value green">14</div></div></div></div>
+                <div class="chart-card">
+                    <div class="chart-container">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+                <div class="punch-card">
+                    <div class="activity-header">
+                        <i class="fas fa-fingerprint"></i> Punch Activity
+                    </div>
+                    <div class="punch-chart-container">
+                        <canvas id="punchBarChart"></canvas>
+                    </div>
+                    <div class="punch-legend">
+                        <div><span class="legend-dot green"></span> Punched In</div>
+                        <div><span class="legend-dot red"></span> Punched Out</div>
+                    </div>
+                    <table class="punch-data-table">
+                        <thead>
+                            <tr><th></th><th>Today</th><th>Yesterday</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>In</strong></td><td class="green">0</td><td class="green">14</td></tr>
+                            <tr><td><strong>Out</strong></td><td class="red">0</td><td class="red">0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="files-section">
                 <div class="files-header">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search records..." onkeyup="filterTable()"></div>
+                    <div class="section-title">Organization Files</div>
+                    <div class="folder-tabs">
+                        <div class="folder-tab active" data-folder="all">All Files</div>
+                        <div class="folder-tab" data-folder="Agreements">Agreements</div>
+                        <div class="folder-tab" data-folder="HR">HR</div>
+                        <div class="folder-tab" data-folder="Employees">Employees</div>
+                        <div class="folder-tab" data-folder="Folders">Folders</div>
+                        <div class="folder-tab" data-folder="Others">Others</div>
+                    </div>
+                    <div class="files-actions">
+                        <div class="entries-select">
+                            <span>Show entries</span>
+                            <select id="entriesSelect" onchange="changeEntriesPerPage()">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                        <div class="search-wrapper">
+                            <button class="add-btn" ><i class="fas fa-plus"></i> Add Organization Files</button>
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInput" placeholder="Search records..." onkeyup="filterTable()">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="table-wrapper"><table><thead><tr><th>S.L.NO.</th><th>Document Name</th><th>Folder</th><th>Expiry Date</th></tr></thead><tbody id="tableBody"></tbody></table></div>
-                <div class="pagination"><span id="pageInfo"></span><div class="page-buttons"><button class="page-btn" onclick="changePage(-1)" id="prevBtn">‹</button><button class="page-btn active" onclick="goPage(1)" id="page1Btn">1</button><button class="page-btn" onclick="goPage(2)" id="page2Btn">2</button><button class="page-btn" onclick="changePage(1)" id="nextBtn">›</button></div></div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>S.L.NO.</th>
+                                <th>Document Name</th>
+                                <th>Folder</th>
+                                <th>Expiry Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <span id="pageInfo"></span>
+                    <div class="page-buttons" id="paginationButtons"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -1016,18 +1315,43 @@
     <div class="widget-footer"><span id="notesCount">0</span> notes</div>
 </div>
 
+<!-- Add/Edit Modal -->
+<div id="fileModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle">Add Organization File</h3>
+        <input type="text" id="modalDocName" placeholder="Document Name">
+        <input type="text" id="modalFolder" placeholder="Folder (Agreements, HR, Employees, Folders, Others)">
+        <input type="date" id="modalExpiry" placeholder="Expiry Date">
+        <div class="modal-buttons">
+            <button class="cancel" onclick="closeModal()">Cancel</button>
+            <button class="confirm" onclick="saveFile()">Save</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    // Documents Data
-    const documents = [
-        { name: "mpdf", folder: "Documents", expiry: "" }, { name: "mpdf", folder: "Documents", expiry: "" },
-        { name: "Gokulpdf", folder: "Reports", expiry: "2025-06-30" }, { name: "THESAY Pharma License", folder: "Legal", expiry: "2026-01-20" },
-        { name: "asxas.jpg", folder: "Images", expiry: "2025-04-18" }, { name: "sdf.jpg", folder: "Images", expiry: "2025-11-05" },
-        { name: "zxcx.jpg", folder: "Images", expiry: "2024-10-22" }, { name: "Documents.jpg", folder: "My Docs", expiry: "2025-12-30" },
-        { name: "Annual_Report.pdf", folder: "Finance", expiry: "2026-03-15" }, { name: "Employee_Handbook.pdf", folder: "HR", expiry: "2025-09-01" }
+    let documents = [
+        { name: "Employment Contract", folder: "Agreements", expiry: "2026-12-31" },
+        { name: "Employee Handbook", folder: "HR", expiry: "2025-09-01" },
+        { name: "Annual Report 2024", folder: "Folders", expiry: "" },
+        { name: "Company Policy", folder: "HR", expiry: "2025-06-30" },
+        { name: "NDA Agreement", folder: "Agreements", expiry: "2027-01-15" },
+        { name: "Salary Slips", folder: "Employees", expiry: "" },
+        { name: "Tax Documents", folder: "Folders", expiry: "2025-04-15" },
+        { name: "Vendor Contracts", folder: "Agreements", expiry: "2026-03-20" },
+        { name: "Leave Policy", folder: "HR", expiry: "2025-12-01" },
+        { name: "Employee Records", folder: "Employees", expiry: "" },
+        { name: "Miscellaneous", folder: "Others", expiry: "" },
+        { name: "Project Reports", folder: "Folders", expiry: "2025-05-30" }
     ];
+    
     let filteredDocs = [...documents];
-    let currentPage = 1, perPage = 10;
+    let currentPage = 1;
+    let perPage = 10;
+    let currentFolder = "all";
+    let editIndex = null;
     let attendanceChart = null;
+    let punchBarChart = null;
 
     function setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
@@ -1035,7 +1359,9 @@
         document.getElementById('lightBtn').classList.toggle('active', theme === 'light');
         document.getElementById('darkBtn').classList.toggle('active', theme === 'dark');
         if (attendanceChart) updateChartColors();
+        if (punchBarChart) updatePunchChartColors();
     }
+    
     function updateChartColors() {
         if (!attendanceChart) return;
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -1043,6 +1369,15 @@
         attendanceChart.options.scales.y.ticks.color = isDark ? '#7e9a8c' : '#7a9486';
         attendanceChart.update();
     }
+    
+    function updatePunchChartColors() {
+        if (!punchBarChart) return;
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        punchBarChart.options.scales.x.ticks.color = isDark ? '#7e9a8c' : '#7a9486';
+        punchBarChart.options.scales.y.ticks.color = isDark ? '#7e9a8c' : '#7a9486';
+        punchBarChart.update();
+    }
+    
     function initChart() {
         const canvas = document.getElementById('attendanceChart');
         if (!canvas) return;
@@ -1054,27 +1389,176 @@
         });
         updateChartColors();
     }
+    
+    function initPunchChart() {
+        const canvas = document.getElementById('punchBarChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        punchBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Today', 'Yesterday'],
+                datasets: [
+                    { label: 'Punched In', data: [0, 14], backgroundColor: '#22c55e', borderRadius: 6, barThickness: 35 },
+                    { label: 'Punched Out', data: [0, 0], backgroundColor: '#ef4444', borderRadius: 6, barThickness: 35 }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } } }
+        });
+        updatePunchChartColors();
+    }
+    
+    function filterByFolder() {
+        if (currentFolder === "all") {
+            filteredDocs = [...documents];
+        } else {
+            filteredDocs = documents.filter(doc => doc.folder === currentFolder);
+        }
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        if (searchTerm) {
+            filteredDocs = filteredDocs.filter(doc => doc.name.toLowerCase().includes(searchTerm));
+        }
+        currentPage = 1;
+        renderTable();
+    }
+    
+    function filterTable() {
+        filterByFolder();
+    }
+    
+    function changeEntriesPerPage() {
+        perPage = parseInt(document.getElementById('entriesSelect').value);
+        currentPage = 1;
+        renderTable();
+    }
+    
     function renderTable() {
         const start = (currentPage - 1) * perPage;
         const pageDocs = filteredDocs.slice(start, start + perPage);
-        document.getElementById('tableBody').innerHTML = pageDocs.map((doc, i) => `<tr><td>${start + i + 1}</td><td>${doc.name}</td><td>${doc.folder}</td><td>${doc.expiry || 'No Expiry'}</td></tr>`).join('');
+        document.getElementById('tableBody').innerHTML = pageDocs.map((doc, i) => `
+            <tr>
+                <td>${start + i + 1}</td>
+                <td>${escapeHtml(doc.name)}</td>
+                <td><span style="background: var(--surface2); padding: 4px 12px; border-radius: 20px; font-size: 11px;">${doc.folder}</span></td>
+                <td>${doc.expiry || 'No Expiry'}</td>
+                <td class="action-buttons">
+                    <button class="action-btn view" onclick="viewFile(${start + i})"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit" onclick="editFile(${start + i})"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete" onclick="deleteFile(${start + i})"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        
         const total = filteredDocs.length;
-        document.getElementById('pageInfo').textContent = `Showing ${total ? start + 1 : 0}-${Math.min(start + perPage, total)} of ${total}`;
-        document.getElementById('page1Btn').classList.toggle('active', currentPage === 1);
-        document.getElementById('page2Btn').classList.toggle('active', currentPage === 2);
+        const totalPages = Math.ceil(total / perPage);
+        document.getElementById('pageInfo').textContent = `Showing ${total ? start + 1 : 0} to ${Math.min(start + perPage, total)} of ${total} entries`;
+        
+        let paginationHtml = '';
+        paginationHtml += `<button class="page-btn" onclick="changePage(-1)" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+        for (let i = 1; i <= Math.min(totalPages, 5); i++) {
+            paginationHtml += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+        }
+        if (totalPages > 5) {
+            paginationHtml += `<span>...</span>`;
+            paginationHtml += `<button class="page-btn" onclick="goPage(${totalPages})">${totalPages}</button>`;
+        }
+        paginationHtml += `<button class="page-btn" onclick="changePage(1)" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}>›</button>`;
+        document.getElementById('paginationButtons').innerHTML = paginationHtml;
     }
-    function filterTable() {
-        filteredDocs = documents.filter(d => d.name.toLowerCase().includes(document.getElementById('searchInput').value.toLowerCase()));
-        currentPage = 1; renderTable();
+    
+    function changePage(d) {
+        const totalPages = Math.ceil(filteredDocs.length / perPage);
+        let np = currentPage + d;
+        if (np >= 1 && np <= totalPages) {
+            currentPage = np;
+            renderTable();
+        }
     }
-    function changePage(d) { let np = currentPage + d; if (np >= 1 && np <= Math.ceil(filteredDocs.length / perPage)) { currentPage = np; renderTable(); } }
-    function goPage(p) { currentPage = p; renderTable(); }
-
+    
+    function goPage(p) {
+        currentPage = p;
+        renderTable();
+    }
+    
+    function viewFile(index) {
+        const doc = filteredDocs[index];
+        alert(`Document: ${doc.name}\nFolder: ${doc.folder}\nExpiry: ${doc.expiry || 'No Expiry'}`);
+    }
+    
+    function editFile(index) {
+        const doc = filteredDocs[index];
+        const originalIndex = documents.findIndex(d => d.name === doc.name && d.folder === doc.folder);
+        editIndex = originalIndex;
+        document.getElementById('modalTitle').textContent = 'Edit Organization File';
+        document.getElementById('modalDocName').value = doc.name;
+        document.getElementById('modalFolder').value = doc.folder;
+        document.getElementById('modalExpiry').value = doc.expiry || '';
+        document.getElementById('fileModal').classList.add('active');
+    }
+    
+    function deleteFile(index) {
+        if (confirm('Are you sure you want to delete this file?')) {
+            const doc = filteredDocs[index];
+            const originalIndex = documents.findIndex(d => d.name === doc.name && d.folder === doc.folder);
+            if (originalIndex !== -1) {
+                documents.splice(originalIndex, 1);
+                filterByFolder();
+                renderTable();
+            }
+        }
+    }
+    
+    function openAddModal() {
+        editIndex = null;
+        document.getElementById('modalTitle').textContent = 'Add Organization File';
+        document.getElementById('modalDocName').value = '';
+        document.getElementById('modalFolder').value = '';
+        document.getElementById('modalExpiry').value = '';
+        document.getElementById('fileModal').classList.add('active');
+    }
+    
+    function closeModal() {
+        document.getElementById('fileModal').classList.remove('active');
+        editIndex = null;
+    }
+    
+    function saveFile() {
+        const name = document.getElementById('modalDocName').value.trim();
+        const folder = document.getElementById('modalFolder').value.trim();
+        const expiry = document.getElementById('modalExpiry').value;
+        
+        if (!name || !folder) {
+            alert('Please fill in document name and folder');
+            return;
+        }
+        
+        if (editIndex !== null) {
+            documents[editIndex] = { name, folder, expiry };
+        } else {
+            documents.unshift({ name, folder, expiry });
+        }
+        
+        closeModal();
+        filterByFolder();
+        renderTable();
+    }
+    
+    // Folder tabs
+    document.querySelectorAll('.folder-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.folder-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            currentFolder = this.dataset.folder;
+            filterByFolder();
+        });
+    });
+    
     let tasks = JSON.parse(localStorage.getItem('hrTasks')) || [
         { text: "Review employee timesheets", completed: false },
         { text: "Prepare monthly HR report", completed: false },
         { text: "Schedule interview for Senior Developer", completed: false }
     ];
+    
     function renderTasks() {
         const list = document.getElementById('taskList');
         list.innerHTML = tasks.map((task, i) => `<li class="task-item"><input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${i})"><span class="task-text ${task.completed ? 'completed' : ''}">${escapeHtml(task.text)}</span><button class="task-delete" onclick="deleteTask(${i})"><i class="fas fa-trash"></i></button></li>`).join('');
@@ -1083,6 +1567,7 @@
         document.getElementById('taskFloatingBadge').textContent = pending;
         localStorage.setItem('hrTasks', JSON.stringify(tasks));
     }
+    
     function toggleTask(idx) { tasks[idx].completed = !tasks[idx].completed; renderTasks(); }
     function deleteTask(idx) { tasks.splice(idx, 1); renderTasks(); }
     function addTask() {
@@ -1090,11 +1575,12 @@
         if (input.value.trim()) { tasks.push({ text: input.value.trim(), completed: false }); input.value = ''; renderTasks(); }
     }
     function clearCompletedTasks() { tasks = tasks.filter(t => !t.completed); renderTasks(); }
-
+    
     let notes = JSON.parse(localStorage.getItem('hrNotes')) || [
         { text: "Meeting with CEO at 3 PM tomorrow", date: new Date().toLocaleDateString() },
         { text: "Prepare Q2 budget presentation", date: new Date().toLocaleDateString() }
     ];
+    
     function renderNotes() {
         const list = document.getElementById('notesList');
         list.innerHTML = notes.map((note, i) => `<li class="note-item"><div class="note-text">${escapeHtml(note.text)}</div><small class="note-date">${note.date}</small><button class="note-delete" onclick="deleteNote(${i})"><i class="fas fa-times"></i></button></li>`).join('');
@@ -1102,148 +1588,62 @@
         document.getElementById('notesFloatingBadge').textContent = notes.length;
         localStorage.setItem('hrNotes', JSON.stringify(notes));
     }
+    
     function deleteNote(idx) { notes.splice(idx, 1); renderNotes(); }
     function addNote() {
         const textarea = document.getElementById('newNoteInput');
         if (textarea.value.trim()) { notes.unshift({ text: textarea.value.trim(), date: new Date().toLocaleDateString() }); textarea.value = ''; renderNotes(); }
     }
+    
     function escapeHtml(text) { return text.replace(/[&<>]/g, function(m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]; }); }
-
-    // Get elements
+    
     const taskIcon = document.getElementById('taskFloatingIcon');
     const taskPanel = document.getElementById('taskWidgetPanel');
     const notesIcon = document.getElementById('notesFloatingIcon');
     const notesPanel = document.getElementById('notesWidgetPanel');
     
-    // Simple open/close functions - no drag interference
-    function showTaskPanel(e) {
-        if (e) e.stopPropagation();
-        taskPanel.classList.remove('hidden');
-        taskIcon.style.display = 'none';
-    }
+    function showTaskPanel(e) { if (e) e.stopPropagation(); taskPanel.classList.remove('hidden'); taskIcon.style.display = 'none'; }
+    function hideTaskPanel() { taskPanel.classList.add('hidden'); taskIcon.style.display = 'flex'; }
+    function showNotesPanel(e) { if (e) e.stopPropagation(); notesPanel.classList.remove('hidden'); notesIcon.style.display = 'none'; }
+    function hideNotesPanel() { notesPanel.classList.add('hidden'); notesIcon.style.display = 'flex'; }
     
-    function hideTaskPanel() {
-        taskPanel.classList.add('hidden');
-        taskIcon.style.display = 'flex';
-    }
-    
-    function showNotesPanel(e) {
-        if (e) e.stopPropagation();
-        notesPanel.classList.remove('hidden');
-        notesIcon.style.display = 'none';
-    }
-    
-    function hideNotesPanel() {
-        notesPanel.classList.add('hidden');
-        notesIcon.style.display = 'flex';
-    }
-    
-    // Add click listeners - simple and direct
     taskIcon.addEventListener('click', showTaskPanel);
     notesIcon.addEventListener('click', showNotesPanel);
     document.getElementById('collapseTaskPanelBtn').addEventListener('click', hideTaskPanel);
     document.getElementById('collapseNotePanelBtn').addEventListener('click', hideNotesPanel);
     document.getElementById('clearTasksBtn').addEventListener('click', clearCompletedTasks);
     
-    // Draggable functionality for panels only (icons are not draggable to avoid conflicts)
     function makePanelDraggable(panel, handleId) {
         const handle = document.getElementById(handleId);
         if (!handle) return;
-        
-        let isDragging = false;
-        let startX, startY, startLeft, startTop;
-        
-        function onMouseDown(e) {
-            // Don't drag if clicking on buttons
-            if (e.target.closest('.widget-actions')) return;
-            e.preventDefault();
-            isDragging = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            const rect = panel.getBoundingClientRect();
-            startLeft = rect.left;
-            startTop = rect.top;
-            panel.style.cursor = 'grabbing';
-            panel.classList.add('dragging');
-        }
-        
-        function onTouchStart(e) {
-            if (e.target.closest('.widget-actions')) return;
-            e.preventDefault();
-            isDragging = true;
-            const touch = e.touches[0];
-            startX = touch.clientX;
-            startY = touch.clientY;
-            const rect = panel.getBoundingClientRect();
-            startLeft = rect.left;
-            startTop = rect.top;
-            panel.classList.add('dragging');
-        }
-        
-        function onMouseMove(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-            let newLeft = startLeft + (e.clientX - startX);
-            let newTop = startTop + (e.clientY - startY);
-            newLeft = Math.max(10, Math.min(window.innerWidth - panel.offsetWidth - 10, newLeft));
-            newTop = Math.max(10, Math.min(window.innerHeight - panel.offsetHeight - 10, newTop));
-            panel.style.left = newLeft + 'px';
-            panel.style.right = 'auto';
-            panel.style.top = newTop + 'px';
-            panel.style.bottom = 'auto';
-        }
-        
-        function onTouchMove(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-            const touch = e.touches[0];
-            let newLeft = startLeft + (touch.clientX - startX);
-            let newTop = startTop + (touch.clientY - startY);
-            newLeft = Math.max(10, Math.min(window.innerWidth - panel.offsetWidth - 10, newLeft));
-            newTop = Math.max(10, Math.min(window.innerHeight - panel.offsetHeight - 10, newTop));
-            panel.style.left = newLeft + 'px';
-            panel.style.right = 'auto';
-            panel.style.top = newTop + 'px';
-            panel.style.bottom = 'auto';
-        }
-        
-        function onMouseUp() {
-            isDragging = false;
-            panel.style.cursor = '';
-            panel.classList.remove('dragging');
-        }
-        
+        let isDragging = false, startX, startY, startLeft, startTop;
+        function onMouseDown(e) { if (e.target.closest('.widget-actions')) return; e.preventDefault(); isDragging = true; startX = e.clientX; startY = e.clientY; const rect = panel.getBoundingClientRect(); startLeft = rect.left; startTop = rect.top; panel.style.cursor = 'grabbing'; panel.classList.add('dragging'); }
+        function onTouchStart(e) { if (e.target.closest('.widget-actions')) return; e.preventDefault(); isDragging = true; const touch = e.touches[0]; startX = touch.clientX; startY = touch.clientY; const rect = panel.getBoundingClientRect(); startLeft = rect.left; startTop = rect.top; panel.classList.add('dragging'); }
+        function onMouseMove(e) { if (!isDragging) return; e.preventDefault(); let newLeft = startLeft + (e.clientX - startX); let newTop = startTop + (e.clientY - startY); newLeft = Math.max(10, Math.min(window.innerWidth - panel.offsetWidth - 10, newLeft)); newTop = Math.max(10, Math.min(window.innerHeight - panel.offsetHeight - 10, newTop)); panel.style.left = newLeft + 'px'; panel.style.right = 'auto'; panel.style.top = newTop + 'px'; panel.style.bottom = 'auto'; }
+        function onTouchMove(e) { if (!isDragging) return; e.preventDefault(); const touch = e.touches[0]; let newLeft = startLeft + (touch.clientX - startX); let newTop = startTop + (touch.clientY - startY); newLeft = Math.max(10, Math.min(window.innerWidth - panel.offsetWidth - 10, newLeft)); newTop = Math.max(10, Math.min(window.innerHeight - panel.offsetHeight - 10, newTop)); panel.style.left = newLeft + 'px'; panel.style.right = 'auto'; panel.style.top = newTop + 'px'; panel.style.bottom = 'auto'; }
+        function onMouseUp() { isDragging = false; panel.style.cursor = ''; panel.classList.remove('dragging'); }
         handle.addEventListener('mousedown', onMouseDown);
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
-        
         handle.addEventListener('touchstart', onTouchStart, { passive: false });
         document.addEventListener('touchmove', onTouchMove, { passive: false });
         document.addEventListener('touchend', onMouseUp);
     }
     
-    // Make panels draggable
     makePanelDraggable(taskPanel, 'taskDragHandle');
     makePanelDraggable(notesPanel, 'notesDragHandle');
     
-    function toggleSidebar() { 
-        document.getElementById('sidebar').classList.toggle('open'); 
-        document.getElementById('overlay').classList.toggle('show'); 
-    }
-    function closeSidebar() { 
-        document.getElementById('sidebar').classList.remove('open'); 
-        document.getElementById('overlay').classList.remove('show'); 
-    }
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+    function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
     document.getElementById('liveDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     
     const savedTheme = localStorage.getItem('hr-theme') || 'light';
     setTheme(savedTheme);
     initChart();
-    renderTable();
+    initPunchChart();
     renderTasks();
     renderNotes();
-    
-    // Initially hide panels, show icons
+    filterByFolder();
     hideTaskPanel();
     hideNotesPanel();
 </script>
