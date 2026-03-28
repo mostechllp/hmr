@@ -1048,6 +1048,23 @@
         width: 320px;
         right: -50px;
       }
+      .header-right {
+        gap: 6px;
+      }
+
+      .theme-toggle {
+        transform: scale(0.85);
+      }
+
+      .notification-bell {
+        width: 34px;
+        height: 34px;
+      }
+
+      .avatar {
+        width: 34px;
+        height: 34px;
+      }
     }
 
     /* Responsive */
@@ -1058,6 +1075,42 @@
     }
 
     @media (max-width: 768px) {
+
+      .header {
+        padding: 12px 16px;
+      }
+
+      .header-right {
+        flex-wrap: nowrap;
+        gap: 8px;
+      }
+
+      .date-badge {
+        display: none;
+      }
+
+      .theme-toggle {
+        transform: scale(0.9);
+      }
+
+      .notification-bell {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+      }
+
+      .header-title h1 {
+        font-size: 16px;
+      }
+
+      .header-title p {
+        font-size: 10px;
+      }
       .sidebar {
         transform: translateX(-100%);
         width: 260px;
@@ -1233,7 +1286,7 @@
 
         <div class="agreement-header">
           <div>
-            <h2>Agreement Files <span class="badge-count"><i class="fas fa-file-signature"></i> Legal Documents</span></h2>
+            <h2>Agreement Files</h2>
           </div>
         </div>
 
