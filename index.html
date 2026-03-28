@@ -1983,6 +1983,107 @@
       makeDraggable(notesPanel, 'notesDragHandle');
       document.getElementById('collapseNotePanelBtn')?.addEventListener('click', hideNotesPanel);
     }
+     function makeElementDraggable(panel, handleSelector) {
+        if (!panel) return;
+        
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
+        
+        const handle = panel.querySelector(handleSelector);
+        if (!handle) return;
+        
+        const onMouseDown = (e) => {
+            // Don't trigger if clicking on buttons inside the handle
+            if (e.target.closest('.widget-actions')) return;
+            e.preventDefault();
+            isDragging = true;
+            
+            const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+            const clientY = e.clientY ?? (e.touches ? e.touches[0].clientY : 0);
+            startX = clientX;
+            startY = clientY;
+            
+            const rect = panel.getBoundingClientRect();
+            startLeft = rect.left;
+            startTop = rect.top;
+            
+            panel.style.cursor = 'grabbing';
+            panel.style.userSelect = 'none';
+        };
+        
+        const onMouseMove = (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+            const clientY = e.clientY ?? (e.touches ? e.touches[0].clientY : 0);
+            
+            let newLeft = startLeft + (clientX - startX);
+            let newTop = startTop + (clientY - startY);
+            
+            // Keep within viewport bounds
+            newLeft = Math.max(0, Math.min(window.innerWidth - panel.offsetWidth, newLeft));
+            newTop = Math.max(0, Math.min(window.innerHeight - panel.offsetHeight, newTop));
+            
+            panel.style.left = newLeft + 'px';
+            panel.style.right = 'auto';
+            panel.style.top = newTop + 'px';
+            panel.style.bottom = 'auto';
+            panel.style.position = 'fixed';
+        };
+        
+        const onMouseUp = () => {
+            isDragging = false;
+            panel.style.cursor = '';
+            panel.style.userSelect = '';
+        };
+        
+        handle.addEventListener('mousedown', onMouseDown);
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+        
+        // Touch events for mobile
+        handle.addEventListener('touchstart', onMouseDown, { passive: false });
+        window.addEventListener('touchmove', onMouseMove, { passive: false });
+        window.addEventListener('touchend', onMouseUp);
+    }
+    
+    // Initialize draggable panels after they're created
+    function initDraggablePanels() {
+        const taskPanel = document.getElementById('taskWidgetPanel');
+        const notesPanel = document.getElementById('notesWidgetPanel');
+        
+        if (taskPanel) {
+            makeElementDraggable(taskPanel, '.widget-header');
+        }
+        if (notesPanel) {
+            makeElementDraggable(notesPanel, '.widget-header');
+        }
+    }
+    
+    // Wait for DOM to be fully loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait a bit for dynamic content to be populated
+            setTimeout(initDraggablePanels, 100);
+        });
+    } else {
+        setTimeout(initDraggablePanels, 100);
+    }
+    
+    // Also re-initialize when panels are rebuilt (for the dynamic content creation)
+    const originalRenderTasks = renderTasks;
+    const originalRenderNotes = renderNotes;
+    
+    window.renderTasks = function() {
+        if (originalRenderTasks) originalRenderTasks();
+        setTimeout(initDraggablePanels, 50);
+    };
+    
+    window.renderNotes = function() {
+        if (originalRenderNotes) originalRenderNotes();
+        setTimeout(initDraggablePanels, 50);
+    };
   </script>
 </body>
 
