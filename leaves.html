@@ -650,6 +650,13 @@
       vertical-align: middle;
     }
 
+    .leave-table th:first-child,
+    .leave-table td:first-child {
+      width: 60px;
+      max-width: 60px;
+      text-align: center;
+    }
+
     .leave-table tr:last-child td {
       border-bottom: none;
     }
@@ -1184,7 +1191,7 @@
       <div class="sidebar-logo">
         <img src="https://violet-leopard-500489.hostingersite.com/hr/public/assets/images/hr-logo2.jpg" alt="HMR Logo" class="logo-img">
       </div>
-      <a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+      <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
       <a href="employees.html" class="nav-item"><i class="fas fa-users"></i><span>Employees</span></a>
       <a href="organizations.html" class="nav-item"><i class="fas fa-briefcase"></i><span>Organizations</span></a>
       <a href="attendances.html" class="nav-item"><i class="fas fa-fingerprint"></i><span>Attendance</span></a>
@@ -1258,10 +1265,10 @@
                 <i class="fas fa-user"></i>
                 <span>My Profile</span>
               </a>
-              <div class="menu-item">
+              <a href="index.html" class="menu-item">
                 <i class="fas fa-arrow-right-from-bracket"></i>
                 <span>Sign out</span>
-              </div>
+              </a>
             </div>
           </div>
         </div>

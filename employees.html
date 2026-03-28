@@ -383,7 +383,7 @@
     /* Stats Cards */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
       margin-bottom: 28px;
     }
@@ -435,12 +435,27 @@
       margin-bottom: 4px;
     }
 
-    .stat-number.green {
-      color: var(--green-dark);
+    .stat-icon.blue-bg {
+      background: rgba(52, 152, 219, 0.1);
+      color: var(--blue);
     }
 
+    .stat-icon.amber-bg {
+      background: rgba(243, 156, 18, 0.1);
+      color: var(--amber);
+    }
+
+    /* Number colors */
     .stat-number.red {
       color: var(--red);
+    }
+
+    .stat-number.blue {
+      color: var(--blue);
+    }
+
+    .stat-number.amber {
+      color: var(--amber);
     }
 
     .stat-label {
@@ -742,6 +757,7 @@
         width: 34px;
         height: 34px;
       }
+
       .notification-panel {
         width: 320px;
         right: -50px;
@@ -903,6 +919,13 @@
       border-bottom: none;
     }
 
+    .employee-table th:first-child,
+    .employee-table td:first-child {
+      width: 60px;
+      max-width: 60px;
+      text-align: center;
+    }
+
     .employee-table tr:hover {
       background: var(--surface2);
       transition: 0.2s;
@@ -911,7 +934,6 @@
     /* Custom Toggle Switch (iOS style) */
     .toggle-switch {
       display: inline-flex;
-      /* 🔥 IMPORTANT */
       align-items: center;
       /* vertical center */
       gap: 10px;
@@ -984,8 +1006,9 @@
     /* Action icons */
     .action-icons {
       display: flex;
-      gap: 12px;
       align-items: center;
+      height: 100%;
+      min-height: 48px;
     }
 
     .action-icon {
@@ -1173,7 +1196,7 @@
       <div class="sidebar-logo">
         <img src="https://violet-leopard-500489.hostingersite.com/hr/public/assets/images/hr-logo2.jpg" alt="HMR Logo" class="logo-img">
       </div>
-      <a href="index.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
+      <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
       <div class="nav-item active"><i class="fas fa-users"></i><span>Employees</span></div>
       <a href="organizations.html" class="nav-item"><i class="fas fa-briefcase"></i><span>Organizations</span></a>
       <a href="agreement.html" class="nav-item"><i class="fas fa-file-signature"></i><span>Agreements</span></a>
@@ -1247,10 +1270,10 @@
                 <i class="fas fa-user"></i>
                 <span>My Profile</span>
               </a>
-              <div class="menu-item">
+              <a href="index.html" class="menu-item">
                 <i class="fas fa-arrow-right-from-bracket"></i>
                 <span>Sign out</span>
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -1258,6 +1281,8 @@
 
       <div class="content-section">
         <div class="stats-grid">
+
+          <!-- Active -->
           <div class="stat-card">
             <div class="stat-header">
               <div class="stat-icon green-bg"><i class="fas fa-user-check"></i></div>
@@ -1265,6 +1290,8 @@
             <div class="stat-number green" id="activeCountStat">0</div>
             <div class="stat-label">Active Employees</div>
           </div>
+
+          <!-- Inactive -->
           <div class="stat-card">
             <div class="stat-header">
               <div class="stat-icon red-bg"><i class="fas fa-user-slash"></i></div>
@@ -1272,6 +1299,25 @@
             <div class="stat-number red" id="inactiveCountStat">0</div>
             <div class="stat-label">Inactive Employees</div>
           </div>
+
+          <!-- NEW: Total Employees -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon blue-bg"><i class="fas fa-users"></i></div>
+            </div>
+            <div class="stat-number blue" id="totalEmployeesStat">0</div>
+            <div class="stat-label">Total Employees</div>
+          </div>
+
+          <!-- NEW: On Leave -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon amber-bg"><i class="fas fa-calendar-times"></i></div>
+            </div>
+            <div class="stat-number amber" id="onLeaveStat">0</div>
+            <div class="stat-label">On Leave</div>
+          </div>
+
         </div>
 
         <div class="employee-header">
@@ -1586,9 +1632,12 @@
     function updateStatsAndCounters(displayedLen = null) {
       const activeCount = employees.filter(emp => emp.status === 'Active').length;
       const inactiveCount = employees.filter(emp => emp.status === 'Inactive').length;
+      const totalEmployees = employees.length;
       document.getElementById('activeCountStat').innerText = activeCount;
       document.getElementById('inactiveCountStat').innerText = inactiveCount;
       document.getElementById('totalCountSpan').innerText = employees.length;
+      document.getElementById('totalEmployeesStat').innerText = totalEmployees;
+      document.getElementById('totalCountSpan').innerText = totalEmployees;
       const displayCount = displayedLen !== null ? displayedLen : getFilteredEmployees().length;
       document.getElementById('displayedCount').innerText = displayCount;
     }
