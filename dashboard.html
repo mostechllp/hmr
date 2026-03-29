@@ -753,6 +753,14 @@
       color: white;
     }
 
+    .folder-tab[data-folder="Agreements"] .tab-icon,
+    .folder-tab[data-folder="HR"] .tab-icon,
+    .folder-tab[data-folder="Employees"] .tab-icon,
+    .folder-tab[data-folder="Folders"] .tab-icon,
+    .folder-tab[data-folder="Others"] .tab-icon {
+      margin-right: 6px;
+    }
+
     .files-actions {
       display: flex;
       justify-content: space-between;
@@ -1164,6 +1172,24 @@
       color: var(--muted);
       text-align: center;
       background: var(--surface2);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-badge.active {
+      background: rgba(46, 204, 113, 0.15);
+      color: var(--green-dark);
+    }
+
+    .status-badge.inactive {
+      background: rgba(231, 76, 60, 0.15);
+      color: var(--red);
     }
 
     /* Modal */
@@ -1827,25 +1853,31 @@
 
         <div class="files-section">
           <div class="files-header">
-            <div class="section-title">Organization Files</div>
+            <div class="section-title" id="sectionTitle"><i class="fas fa-folder-open"></i> All Files</div>
             <div class="folder-tabs">
-              <div class="folder-tab active" data-folder="all">All Files</div>
-              <div class="folder-tab" data-folder="Agreements">Agreements</div>
-              <div class="folder-tab" data-folder="HR">HR</div>
-              <div class="folder-tab" data-folder="Employees">Employees</div>
-              <div class="folder-tab" data-folder="Folders">Folders</div>
-              <div class="folder-tab" data-folder="Others">Others</div>
+              <div class="folder-tab active" data-folder="all"><i class="fas fa-folder-open"></i> Organization Files</div>
+              <div class="folder-tab" data-folder="Agreements"><i class="fas fa-file-signature"></i> Agreements</div>
+              <div class="folder-tab" data-folder="HR"><i class="fas fa-users"></i> HR</div>
+              <div class="folder-tab" data-folder="Employees"><i class="fas fa-user-tie"></i> Employees</div>
+              <div class="folder-tab" data-folder="Folders"><i class="fas fa-folder"></i> Folders</div>
+              <div class="folder-tab" data-folder="Others"><i class="fas fa-ellipsis-h"></i> Others</div>
             </div>
             <div class="files-actions">
-              <div class="entries-select"><span>Show entries</span><select id="entriesSelect" onchange="changeEntriesPerPage()">
+              <div class="entries-select">
+                <span>Show entries</span>
+                <select id="entriesSelect" onchange="changeEntriesPerPage()">
                   <option value="5">5</option>
                   <option value="10" selected>10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
-                </select></div>
+                </select>
+              </div>
               <div class="search-wrapper">
-                <button class="add-btn"><i class="fas fa-plus"></i> Add Organization Files</button>
-                <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search records..." onkeyup="filterTable()"></div>
+                <button class="add-btn" id="addFileBtn" onclick="openAddModal()"><i class="fas fa-plus"></i> Add Organization File</button>
+                <div class="search-box">
+                  <i class="fas fa-search"></i>
+                  <input type="text" id="searchInput" placeholder="Search records..." onkeyup="filterTable()">
+                </div>
               </div>
             </div>
           </div>
@@ -1863,7 +1895,8 @@
               <tbody id="tableBody"></tbody>
             </table>
           </div>
-          <div class="pagination"><span id="pageInfo"></span>
+          <div class="pagination">
+            <span id="pageInfo"></span>
             <div class="page-buttons" id="paginationButtons"></div>
           </div>
         </div>
@@ -1879,66 +1912,440 @@
 
   <div id="fileModal" class="modal">
     <div class="modal-content">
-      <h3 id="modalTitle">Add Organization File</h3><input type="text" id="modalDocName" placeholder="Document Name"><input type="text" id="modalFolder" placeholder="Folder (Agreements, HR, Employees, Folders, Others)"><input type="date" id="modalExpiry">
-      <div class="modal-buttons"><button class="cancel" onclick="closeModal()">Cancel</button><button class="confirm" onclick="saveFile()">Save</button></div>
+      <h3 id="modalTitle">Add Organization File</h3>
+      <input type="text" id="modalDocName" placeholder="Document Name *" required>
+      <select id="modalFolder" style="width:100%; padding:10px; margin-bottom:16px; border-radius:8px; border:1px solid var(--border); background:var(--surface2); color:var(--text);">
+        <option value="">Select Folder *</option>
+        <option value="Agreements">Agreements</option>
+        <option value="HR">HR</option>
+        <option value="Employees">Employees</option>
+        <option value="Folders">Folders</option>
+        <option value="Others">Others</option>
+      </select>
+      <input type="date" id="modalExpiry" placeholder="Expiry Date">
+      <div class="modal-buttons">
+        <button class="cancel" onclick="closeModal()">Cancel</button>
+        <button class="confirm" onclick="saveFile()">Save</button>
+      </div>
     </div>
   </div>
 
   <script>
     let documents = [{
-      name: "Employment Contract",
-      folder: "Agreements",
-      expiry: "2026-12-31"
-    }, {
-      name: "Employee Handbook",
-      folder: "HR",
-      expiry: "2025-09-01"
-    }, {
-      name: "Annual Report 2024",
-      folder: "Folders",
-      expiry: ""
-    }, {
-      name: "Company Policy",
-      folder: "HR",
-      expiry: "2025-06-30"
-    }, {
-      name: "NDA Agreement",
-      folder: "Agreements",
-      expiry: "2027-01-15"
-    }, {
-      name: "Salary Slips",
-      folder: "Employees",
-      expiry: ""
-    }, {
-      name: "Tax Documents",
-      folder: "Folders",
-      expiry: "2025-04-15"
-    }, {
-      name: "Vendor Contracts",
-      folder: "Agreements",
-      expiry: "2026-03-20"
-    }, {
-      name: "Leave Policy",
-      folder: "HR",
-      expiry: "2025-12-01"
-    }, {
-      name: "Employee Records",
-      folder: "Employees",
-      expiry: ""
-    }, {
-      name: "Miscellaneous",
-      folder: "Others",
-      expiry: ""
-    }, {
-      name: "Project Reports",
-      folder: "Folders",
-      expiry: "2025-05-30"
-    }];
+        name: "Employment Contract",
+        folder: "Agreements",
+        expiry: "2026-12-31"
+      },
+      {
+        name: "Employee Handbook",
+        folder: "HR",
+        expiry: "2025-09-01"
+      },
+      {
+        name: "Annual Report 2024",
+        folder: "Folders",
+        expiry: ""
+      },
+      {
+        name: "Company Policy",
+        folder: "HR",
+        expiry: "2025-06-30"
+      },
+      {
+        name: "NDA Agreement",
+        folder: "Agreements",
+        expiry: "2027-01-15"
+      },
+      {
+        name: "Salary Slips",
+        folder: "Employees",
+        expiry: ""
+      },
+      {
+        name: "Tax Documents",
+        folder: "Folders",
+        expiry: "2025-04-15"
+      },
+      {
+        name: "Vendor Contracts",
+        folder: "Agreements",
+        expiry: "2026-03-20"
+      },
+      {
+        name: "Leave Policy",
+        folder: "HR",
+        expiry: "2025-12-01"
+      },
+      {
+        name: "Employee Records",
+        folder: "Employees",
+        expiry: ""
+      },
+      {
+        name: "Miscellaneous",
+        folder: "Others",
+        expiry: ""
+      },
+      {
+        name: "Project Reports",
+        folder: "Folders",
+        expiry: "2025-05-30"
+      }
+    ];
+
     let filteredDocs = [...documents];
-    let currentPage = 1,
-      perPage = 10,
-      currentFolder = "all",
+    let currentPage = 1;
+    let perPage = 10;
+    let currentFolder = "all";
+    let editIndex = null;
+
+    function filterByFolder() {
+      filteredDocs = currentFolder === "all" ? [...documents] :
+        documents.filter(doc => doc.folder === currentFolder);
+
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      if (searchTerm) {
+        filteredDocs = filteredDocs.filter(doc =>
+          doc.name.toLowerCase().includes(searchTerm) ||
+          doc.folder.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      // Update table headers when filtering
+      updateTableHeaders(currentFolder);
+      currentPage = 1;
+      renderTable();
+    }
+
+    function filterTable() {
+      filterByFolder();
+    }
+
+    function changeEntriesPerPage() {
+      perPage = parseInt(document.getElementById('entriesSelect').value);
+      currentPage = 1;
+      renderTable();
+    }
+
+    function renderTable() {
+      const start = (currentPage - 1) * perPage;
+      const pageDocs = filteredDocs.slice(start, start + perPage);
+      const tbody = document.getElementById('tableBody');
+
+      if (!tbody) return;
+
+      tbody.innerHTML = pageDocs.map((doc, i) => {
+        const serial = start + i + 1;
+        const expiryDisplay = doc.expiry ? doc.expiry : 'No Expiry';
+        const folderClass = doc.folder === 'Agreements' ? 'agreement' :
+          doc.folder === 'HR' ? 'hr' :
+          doc.folder === 'Employees' ? 'employee' :
+          doc.folder === 'Folders' ? 'folder' : 'other';
+
+        return `
+      <tr>
+        <td style="text-align: center;">${serial}</td>
+        <td style="font-weight: 600; color: var(--text);">${escapeHtml(doc.name)}</td>
+        <td><span style="background: var(--surface2); padding: 4px 12px; border-radius: 20px; font-size: 11px; display: inline-block;">${escapeHtml(doc.folder)}</span></td>
+        <td>${expiryDisplay}</td>
+        <td class="action-buttons">
+          <button class="action-btn view" onclick="viewFile(${start + i})" title="View"><i class="fas fa-eye"></i></button>
+          <button class="action-btn edit" onclick="editFile(${start + i})" title="Edit"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete" onclick="deleteFile(${start + i})" title="Delete"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `;
+      }).join('');
+
+      const total = filteredDocs.length;
+      const totalPages = Math.ceil(total / perPage);
+
+      document.getElementById('pageInfo').innerHTML = `Showing ${total ? start + 1 : 0} to ${Math.min(start + perPage, total)} of ${total} entries`;
+
+      // Pagination buttons
+      let html = `<button class="page-btn" onclick="changePage(-1)" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+      if (endPage - startPage + 1 < maxVisible && startPage > 1) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+      }
+
+      if (totalPages > maxVisible && endPage < totalPages) {
+        html += `<span style="padding: 0 4px;">...</span>`;
+        html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+      }
+
+      html += `<button class="page-btn" onclick="changePage(1)" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}>›</button>`;
+      document.getElementById('paginationButtons').innerHTML = html;
+    }
+
+    function changePage(delta) {
+      const totalPages = Math.ceil(filteredDocs.length / perPage);
+      const newPage = currentPage + delta;
+      if (newPage >= 1 && newPage <= totalPages) {
+        currentPage = newPage;
+        renderTable();
+      }
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderTable();
+    }
+
+    function viewFile(index) {
+      const doc = filteredDocs[index];
+      if (doc) {
+        alert(`📄 DOCUMENT DETAILS\n\nName: ${doc.name}\nFolder: ${doc.folder}\nExpiry: ${doc.expiry || 'No Expiry'}`);
+      }
+    }
+
+    function editFile(index) {
+      const doc = filteredDocs[index];
+      if (doc) {
+        editIndex = documents.findIndex(d => d.name === doc.name && d.folder === doc.folder);
+        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Organization File';
+        document.getElementById('modalDocName').value = doc.name;
+        document.getElementById('modalFolder').value = doc.folder;
+        document.getElementById('modalExpiry').value = doc.expiry || '';
+        document.getElementById('fileModal').classList.add('active');
+      }
+    }
+
+    function deleteFile(index) {
+      const doc = filteredDocs[index];
+      if (doc && confirm(`Delete "${doc.name}"? This action cannot be undone.`)) {
+        const idx = documents.findIndex(d => d.name === doc.name && d.folder === doc.folder);
+        if (idx !== -1) {
+          documents.splice(idx, 1);
+          filterByFolder();
+          showToast(`🗑️ "${doc.name}" removed`, false);
+        }
+      }
+    }
+
+    function openAddModal() {
+      // Redirect based on current folder
+      switch (currentFolder) {
+        case 'Organizations':
+        case 'all':
+          window.location.href = 'add-company.html';
+          break;
+        case 'Agreements':
+          window.location.href = 'add-agreement.html';
+          break;
+        case 'HR':
+          window.location.href = 'add-agreement.html';
+          break;
+        case 'Employees':
+          window.location.href = 'add-employee.html';
+          break;
+        case 'Folders':
+          // Open modal for creating new folder
+          openFolderModal();
+          break;
+        case 'Others':
+          // Open modal for adding other files
+          openOtherFileModal();
+          break;
+        default:
+          window.location.href = 'add-company.html';
+      }
+    }
+
+    // Modal for creating new folder
+    function openFolderModal() {
+      const folderName = prompt('Enter folder name:', 'New Folder');
+      if (folderName && folderName.trim()) {
+        // Add new folder to the list (as a document with folder type)
+        documents.unshift({
+          name: folderName.trim(),
+          folder: 'Folders',
+          expiry: ''
+        });
+        showToast(`✓ Folder "${folderName}" created successfully`, true);
+        filterByFolder();
+      }
+    }
+
+    // Modal for adding other files
+    function openOtherFileModal() {
+      const fileName = prompt('Enter file name:', 'New File');
+      if (fileName && fileName.trim()) {
+        documents.unshift({
+          name: fileName.trim(),
+          folder: 'Others',
+          expiry: ''
+        });
+        showToast(`✓ File "${fileName}" added successfully`, true);
+        filterByFolder();
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('fileModal').classList.remove('active');
       editIndex = null;
+    }
+
+    function saveFile() {
+      const name = document.getElementById('modalDocName').value.trim();
+      const folder = document.getElementById('modalFolder').value;
+      const expiry = document.getElementById('modalExpiry').value;
+
+      if (!name) {
+        showToast('Document name is required', false);
+        return;
+      }
+      if (!folder) {
+        showToast('Please select a folder', false);
+        return;
+      }
+
+      if (editIndex !== null) {
+        // Edit existing
+        documents[editIndex] = {
+          name,
+          folder,
+          expiry
+        };
+        showToast(`✏️ "${name}" updated successfully`, true);
+      } else {
+        // Add new
+        documents.unshift({
+          name,
+          folder,
+          expiry
+        });
+        showToast(`✓ "${name}" added successfully`, true);
+      }
+
+      closeModal();
+      filterByFolder();
+    }
+
+    function showToast(message, isSuccess = true) {
+      const existing = document.querySelector('.toast-notification');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-info-circle'}" style="color: var(--green);"></i> ${message}`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    // Initialize folder tabs
+    // Initialize folder tabs
+    document.querySelectorAll('.folder-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.folder-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        currentFolder = this.dataset.folder;
+
+        // Update section title based on selected folder
+        const sectionTitle = document.getElementById('sectionTitle');
+        const folderName = this.textContent.trim();
+        const folderIcon = this.querySelector('i') ? this.querySelector('i').cloneNode(true) : document.createElement('i');
+
+        sectionTitle.innerHTML = '';
+        sectionTitle.appendChild(folderIcon);
+        sectionTitle.appendChild(document.createTextNode(' ' + folderName));
+
+        // Update add button text based on folder
+        const addBtn = document.getElementById('addFileBtn');
+
+        switch (currentFolder) {
+          case 'Agreements':
+            addBtn.innerHTML = '<i class="fas fa-file-signature"></i> Add Agreement';
+            break;
+          case 'HR':
+            addBtn.innerHTML = '<i class="fas fa-users"></i> Add HR Document';
+            break;
+          case 'Employees':
+            addBtn.innerHTML = '<i class="fas fa-user-plus"></i> Add Employee';
+            break;
+          case 'Folders':
+            addBtn.innerHTML = '<i class="fas fa-folder-plus"></i> Create Folder';
+            break;
+          case 'Others':
+            addBtn.innerHTML = '<i class="fas fa-plus"></i> Add Other File';
+            break;
+          default:
+            addBtn.innerHTML = '<i class="fas fa-building"></i> Add Company';
+        }
+
+        // Update table headers based on folder
+        updateTableHeaders(currentFolder);
+        filterByFolder();
+      });
+    });
+
+    function updateTableHeaders(folder) {
+      const thead = document.querySelector('.files-section thead');
+      if (!thead) return;
+
+      let headers = '';
+
+      switch (folder) {
+        case 'Employees':
+          headers = `
+        <th>S.L.NO.</th>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Department</th>
+        <th>Company</th>
+        <th>Status</th>
+        <th>Action</th>
+      `;
+          break;
+        case 'Folders':
+          headers = `
+        <th>S.L.NO.</th>
+        <th>Folder Name</th>
+        <th>Type</th>
+        <th>Created By</th>
+        <th>Created Date</th>
+        <th>Action</th>
+      `;
+          break;
+        default:
+          headers = `
+        <th>S.L.NO.</th>
+        <th>Document Name</th>
+        <th>Folder</th>
+        <th>Expiry Date</th>
+        <th>Actions</th>
+      `;
+      }
+
+      thead.innerHTML = `<tr>${headers}</tr>`;
+    }
+
+    // Add Add button listener
+    document.addEventListener('DOMContentLoaded', () => {
+      const addBtn = document.getElementById('addFileBtn');
+      if (addBtn) {
+        addBtn.innerHTML = ' Add Company';
+        addBtn.onclick = openAddModal;
+      }
+    });
     let attendanceChart = null,
       punchBarChart = null;
 
@@ -2214,15 +2621,268 @@
     function renderTable() {
       const start = (currentPage - 1) * perPage;
       const pageDocs = filteredDocs.slice(start, start + perPage);
-      document.getElementById('tableBody').innerHTML = pageDocs.map((doc, i) => `<tr><td>${start+i+1}</td><td>${escapeHtml(doc.name)}</td><td><span style="background:var(--surface2); padding:4px 12px; border-radius:20px; font-size:11px;">${doc.folder}</span></td><td>${doc.expiry||'No Expiry'}</td><td class="action-buttons"><button class="action-btn view" onclick="viewFile(${start+i})"><i class="fas fa-eye"></i></button><button class="action-btn edit" onclick="editFile(${start+i})"><i class="fas fa-edit"></i></button><button class="action-btn delete" onclick="deleteFile(${start+i})"><i class="fas fa-trash"></i></button></td></tr>`).join('');
-      const total = filteredDocs.length,
-        totalPages = Math.ceil(total / perPage);
-      document.getElementById('pageInfo').textContent = `Showing ${total?start+1:0} to ${Math.min(start+perPage,total)} of ${total} entries`;
-      let html = `<button class="page-btn" onclick="changePage(-1)" ${currentPage===1?'disabled':''}>‹</button>`;
-      for (let i = 1; i <= Math.min(totalPages, 5); i++) html += `<button class="page-btn ${currentPage===i?'active':''}" onclick="goPage(${i})">${i}</button>`;
-      if (totalPages > 5) html += `<span>...</span><button class="page-btn" onclick="goPage(${totalPages})">${totalPages}</button>`;
-      html += `<button class="page-btn" onclick="changePage(1)" ${currentPage===totalPages||totalPages===0?'disabled':''}>›</button>`;
+      const tbody = document.getElementById('tableBody');
+      const folderType = currentFolder;
+
+      if (!tbody) return;
+
+      // For Employees tab - show employee data
+      if (folderType === 'Employees') {
+        // Employee data
+        const employees = [{
+            id: 1,
+            name: "JITHIN",
+            designation: "IT Dept Head",
+            department: "IT",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 2,
+            name: "FAWZY",
+            designation: "Business Development Manager",
+            department: "Business Development",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 3,
+            name: "FAHEEM",
+            designation: "Corporate Secretary",
+            department: "Legal/HR/Admin",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 4,
+            name: "ASLAN",
+            designation: "Director",
+            department: "-",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 5,
+            name: "ABHILASH",
+            designation: "Finance Manager",
+            department: "Finance",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 6,
+            name: "KSENIA",
+            designation: "Marketing Specialist",
+            department: "Marketing",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 7,
+            name: "SHOKHISTA",
+            designation: "Accountant",
+            department: "Finance",
+            company: "THESAY",
+            status: "Inactive"
+          },
+          {
+            id: 8,
+            name: "AKSHAY",
+            designation: "General Accountant",
+            department: "Accounts",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 9,
+            name: "VIJAY",
+            designation: "Business Head GCC",
+            department: "Business",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 10,
+            name: "SUNEEL",
+            designation: "Business Development Manager",
+            department: "Business",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 11,
+            name: "ABHILASH",
+            designation: "Finance Manager",
+            department: "Finance",
+            company: "THESAY",
+            status: "Active"
+          },
+          {
+            id: 12,
+            name: "AKSHAY",
+            designation: "General Accountant",
+            department: "Accounts",
+            company: "THESAY",
+            status: "Inactive"
+          }
+        ];
+
+        const filteredEmps = employees.slice(start, start + perPage);
+        tbody.innerHTML = filteredEmps.map((emp, i) => {
+          const serial = start + i + 1;
+          const statusClass = emp.status === 'Active' ? 'active' : 'inactive';
+          return `
+        <tr>
+          <td style="text-align: center;">${serial}</td>
+          <td style="font-weight: 600; color: var(--text);">${escapeHtml(emp.name)}</td>
+          <td>${escapeHtml(emp.designation || '-')}</td>
+          <td>${escapeHtml(emp.department || '-')}</td>
+          <td>${escapeHtml(emp.company)}</td>
+          <td><span class="status-badge ${statusClass}">${emp.status}</span></td>
+          <td class="action-buttons">
+            <button class="action-btn view" onclick="viewEmployee(${emp.id})" title="View"><i class="fas fa-eye"></i></button>
+            <button class="action-btn edit" onclick="editEmployee(${emp.id})" title="Edit"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete" onclick="deleteEmployee(${emp.id})" title="Delete"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      `;
+        }).join('');
+
+        const total = employees.length;
+        const totalPages = Math.ceil(total / perPage);
+        document.getElementById('pageInfo').innerHTML = `Showing ${total ? start + 1 : 0} to ${Math.min(start + perPage, total)} of ${total} entries`;
+        updatePaginationButtons(totalPages);
+        return;
+      }
+
+      // For Folders tab - show folder data
+      if (folderType === 'Folders') {
+        // Folder data
+        const folders = [{
+            id: 1,
+            name: "Test",
+            type: "Shared Folder",
+            createdBy: "Admin",
+            createdDate: "28 Mar, 2026"
+          },
+          {
+            id: 2,
+            name: "Admin",
+            type: "Shared Folder",
+            createdBy: "Admin",
+            createdDate: "28 Mar, 2026"
+          },
+          {
+            id: 3,
+            name: "HR",
+            type: "Shared Folder",
+            createdBy: "HR Team",
+            createdDate: "28 Mar, 2026"
+          }
+        ];
+
+        const filteredFolders = folders.slice(start, start + perPage);
+        tbody.innerHTML = filteredFolders.map((folder, i) => {
+          const serial = start + i + 1;
+          return `
+        <tr>
+          <td style="text-align: center;">${serial}</td>
+          <td style="font-weight: 600; color: var(--text);"><i class="fas fa-folder" style="color: var(--amber); margin-right: 8px;"></i>${escapeHtml(folder.name)}</td>
+          <td>${escapeHtml(folder.type)}</td>
+          <td>${escapeHtml(folder.createdBy)}</td>
+          <td>${escapeHtml(folder.createdDate)}</td>
+          <td class="action-buttons">
+            <button class="action-btn view" onclick="viewFolder(${folder.id})" title="View"><i class="fas fa-eye"></i></button>
+            <button class="action-btn edit" onclick="editFolder(${folder.id})" title="Edit"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete" onclick="deleteFolder(${folder.id})" title="Delete"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      `;
+        }).join('');
+
+        const total = folders.length;
+        const totalPages = Math.ceil(total / perPage);
+        document.getElementById('pageInfo').innerHTML = `Showing ${total ? start + 1 : 0} to ${Math.min(start + perPage, total)} of ${total} entries`;
+        updatePaginationButtons(totalPages);
+        return;
+      }
+
+      // Default - Documents view
+      tbody.innerHTML = pageDocs.map((doc, i) => {
+        const serial = start + i + 1;
+        const expiryDisplay = doc.expiry ? doc.expiry : 'No Expiry';
+        return `
+      <tr>
+        <td style="text-align: center;">${serial}</td>
+        <td style="font-weight: 600; color: var(--text);">${escapeHtml(doc.name)}</td>
+        <td><span style="background: var(--surface2); padding: 4px 12px; border-radius: 20px; font-size: 11px; display: inline-block;">${escapeHtml(doc.folder)}</span></td>
+        <td>${expiryDisplay}</td>
+        <td class="action-buttons">
+          <button class="action-btn view" onclick="viewFile(${start + i})" title="View"><i class="fas fa-eye"></i></button>
+          <button class="action-btn edit" onclick="editFile(${start + i})" title="Edit"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete" onclick="deleteFile(${start + i})" title="Delete"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `;
+      }).join('');
+
+      const total = filteredDocs.length;
+      const totalPages = Math.ceil(total / perPage);
+      document.getElementById('pageInfo').innerHTML = `Showing ${total ? start + 1 : 0} to ${Math.min(start + perPage, total)} of ${total} entries`;
+      updatePaginationButtons(totalPages);
+    }
+
+    function updatePaginationButtons(totalPages) {
+      let html = `<button class="page-btn" onclick="changePage(-1)" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+      if (endPage - startPage + 1 < maxVisible && startPage > 1) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+      }
+
+      if (totalPages > maxVisible && endPage < totalPages) {
+        html += `<span style="padding: 0 4px;">...</span>`;
+        html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+      }
+
+      html += `<button class="page-btn" onclick="changePage(1)" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}>›</button>`;
       document.getElementById('paginationButtons').innerHTML = html;
+    }
+
+    // Helper functions for Employees and Folders
+    function viewEmployee(id) {
+      alert(`View Employee details for ID: ${id}`);
+    }
+
+    function editEmployee(id) {
+      alert(`Edit Employee details for ID: ${id}`);
+    }
+
+    function deleteEmployee(id) {
+      if (confirm('Delete this employee?')) {
+        alert(`Employee ${id} deleted`);
+      }
+    }
+
+    function viewFolder(id) {
+      alert(`View Folder details for ID: ${id}`);
+    }
+
+    function editFolder(id) {
+      alert(`Edit Folder details for ID: ${id}`);
+    }
+
+    function deleteFolder(id) {
+      if (confirm('Delete this folder?')) {
+        alert(`Folder ${id} deleted`);
+      }
     }
 
     function changePage(d) {
@@ -2262,15 +2922,6 @@
           filterByFolder();
         }
       }
-    }
-
-    function openAddModal() {
-      editIndex = null;
-      document.getElementById('modalTitle').textContent = 'Add Organization File';
-      document.getElementById('modalDocName').value = '';
-      document.getElementById('modalFolder').value = '';
-      document.getElementById('modalExpiry').value = '';
-      document.getElementById('fileModal').classList.add('active');
     }
 
     function closeModal() {

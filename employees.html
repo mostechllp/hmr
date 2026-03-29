@@ -428,13 +428,6 @@
       color: var(--red);
     }
 
-    .stat-number {
-      font-size: 32px;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 4px;
-    }
-
     .stat-icon.blue-bg {
       background: rgba(52, 152, 219, 0.1);
       color: var(--blue);
@@ -445,7 +438,17 @@
       color: var(--amber);
     }
 
-    /* Number colors */
+    .stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .stat-number.green {
+      color: var(--green-dark);
+    }
+
     .stat-number.red {
       color: var(--red);
     }
@@ -487,16 +490,36 @@
       color: transparent;
     }
 
-    .badge-active {
-      background: var(--green-light);
-      color: var(--green-dark);
-      padding: 6px 14px;
+    /* Status Toggler */
+    .status-toggler {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
       border-radius: 40px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-left: 12px;
+      padding: 4px;
     }
 
+    .toggle-btn {
+      padding: 6px 18px;
+      border-radius: 32px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+    }
+
+    .toggle-btn.active {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 2px 6px rgba(46, 204, 113, 0.3);
+    }
+
+    /* Action Bar */
     .files-actions {
       display: flex;
       justify-content: space-between;
@@ -506,7 +529,6 @@
       margin-bottom: 20px;
     }
 
-    /* LEFT: entries */
     .entries-select {
       display: flex;
       align-items: center;
@@ -529,7 +551,6 @@
       cursor: pointer;
     }
 
-    /* RIGHT SIDE */
     .search-wrapper {
       display: flex;
       align-items: center;
@@ -537,29 +558,6 @@
       flex-wrap: wrap;
     }
 
-    /* ADD BUTTON (match dashboard button style) */
-    .add-btn {
-      background: var(--green);
-      border: none;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 2px 8px rgba(46, 204, 113, 0.25);
-      transition: 0.2s;
-    }
-
-    .add-btn:hover {
-      background: var(--green-dark);
-      transform: translateY(-1px);
-    }
-
-    /* SEARCH BOX */
     .search-box {
       display: flex;
       align-items: center;
@@ -582,7 +580,324 @@
       background: transparent;
       font-size: 13px;
       color: var(--text);
-      width: 160px;
+      width: 180px;
+    }
+
+    .add-employee-btn {
+      background: var(--green);
+      border: none;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(46, 204, 113, 0.25);
+      transition: 0.2s;
+      text-decoration: none;
+    }
+
+    .add-employee-btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+    }
+
+    /* Table */
+    .employee-table-wrapper {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      box-shadow: var(--shadow);
+    }
+
+    .employee-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 800px;
+    }
+
+    .employee-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .employee-table td {
+      padding: 14px 16px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: middle;
+    }
+
+    .employee-table th:first-child,
+    .employee-table td:first-child {
+      width: 60px;
+      max-width: 60px;
+      text-align: center;
+    }
+
+    .employee-table tr:hover {
+      background: var(--surface2);
+      transition: 0.2s;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .toggle-switch .switch {
+      position: relative;
+      width: 52px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background-color: #e0e4e1;
+      border-radius: 34px;
+      transition: 0.3s;
+    }
+
+    .toggle-slider:before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .toggle-switch input:checked+.toggle-slider {
+      background-color: var(--green);
+    }
+
+    .toggle-switch input:checked+.toggle-slider:before {
+      transform: translateX(26px);
+    }
+
+    .status-text {
+      font-size: 13px;
+      font-weight: 600;
+      min-width: 60px;
+    }
+
+    .status-text.active {
+      color: var(--green-dark);
+    }
+
+    .status-text.inactive {
+      color: var(--red);
+    }
+
+    .action-icons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .action-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      transition: all 0.2s;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .action-icon.view {
+      color: var(--blue);
+    }
+
+    .action-icon.edit {
+      color: var(--amber);
+    }
+
+    .action-icon.delete {
+      color: var(--red);
+    }
+
+    .action-icon:hover {
+      background: var(--surface2);
+      transform: scale(1.1);
+    }
+
+    /* Pagination */
+    .pagination-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .page-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+
+    .page-btn.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: white;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(3px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      max-width: 450px;
+      width: 90%;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .modal-card h3 {
+      margin-bottom: 20px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .modal-card input,
+    .modal-card select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    .modal-buttons button {
+      padding: 8px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .btn-save {
+      background: var(--green);
+      border: none;
+      color: white;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 150;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
+    /* Toast */
+    .toast-notification {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      border-left: 4px solid var(--green);
+      z-index: 1300;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: slideUp 0.2s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Notification Bell & Panel */
@@ -740,33 +1055,13 @@
     }
 
     @media (max-width: 480px) {
-      .header-right {
-        gap: 6px;
-      }
-
-      .theme-toggle {
-        transform: scale(0.85);
-      }
-
-      .notification-bell {
-        width: 34px;
-        height: 34px;
-      }
-
-      .avatar {
-        width: 34px;
-        height: 34px;
-      }
-
       .notification-panel {
         width: 320px;
         right: -50px;
       }
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
-
       .header {
         padding: 12px 16px;
       }
@@ -803,359 +1098,6 @@
         font-size: 10px;
       }
 
-      .sidebar.open .nav-item span,
-      .sidebar.open .user-details {
-        opacity: 1;
-      }
-
-      .files-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .date-badge {
-        display: none;
-      }
-
-      .search-wrapper {
-        justify-content: space-between;
-      }
-
-      .search-box input {
-        width: 100%;
-      }
-    }
-
-    /* Toggle Switcher (global filter) */
-    .status-toggler {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 4px;
-    }
-
-    .toggle-btn {
-      padding: 6px 18px;
-      border-radius: 32px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-    }
-
-    .toggle-btn.active {
-      background: var(--green);
-      color: white;
-      box-shadow: 0 2px 6px rgba(46, 204, 113, 0.3);
-    }
-
-    .add-employee-btn {
-      background: var(--green);
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 2px 8px rgba(46, 204, 113, 0.2);
-      text-decoration: none;
-    }
-
-    .add-employee-btn:hover {
-      background: var(--green-dark);
-      transform: translateY(-1px);
-    }
-
-    /* Table */
-    .employee-table-wrapper {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow-x: auto;
-      box-shadow: var(--shadow);
-    }
-
-    .employee-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      min-width: 800px;
-    }
-
-    .employee-table th {
-      text-align: left;
-      padding: 12px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--muted);
-      background: var(--surface2);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .employee-table td {
-      padding: 14px 16px;
-      font-size: 13px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-secondary);
-      vertical-align: middle;
-    }
-
-    .employee-table td:first-child {
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .employee-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .employee-table th:first-child,
-    .employee-table td:first-child {
-      width: 60px;
-      max-width: 60px;
-      text-align: center;
-    }
-
-    .employee-table tr:hover {
-      background: var(--surface2);
-      transition: 0.2s;
-    }
-
-    /* Custom Toggle Switch (iOS style) */
-    .toggle-switch {
-      display: inline-flex;
-      align-items: center;
-      /* vertical center */
-      gap: 10px;
-      /* space between toggle & text */
-      cursor: pointer;
-    }
-
-    /* Wrap the actual switch */
-    .toggle-switch .switch {
-      position: relative;
-      width: 52px;
-      height: 26px;
-    }
-
-    /* Hide checkbox */
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-      position: absolute;
-    }
-
-    /* Slider */
-    .toggle-slider {
-      position: absolute;
-      inset: 0;
-      background-color: #e0e4e1;
-      border-radius: 34px;
-      transition: 0.3s;
-    }
-
-    .toggle-slider:before {
-      content: "";
-      position: absolute;
-      height: 20px;
-      width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background: white;
-      border-radius: 50%;
-      transition: 0.3s;
-    }
-
-    /* Checked */
-    .toggle-switch input:checked+.toggle-slider {
-      background-color: var(--green);
-    }
-
-    .toggle-switch input:checked+.toggle-slider:before {
-      transform: translateX(26px);
-    }
-
-    /* Status text styling */
-    .status-text {
-      font-size: 13px;
-      font-weight: 600;
-      min-width: 60px;
-      transition: color 0.25s ease;
-    }
-
-    /* Colors */
-    .status-text.active {
-      color: var(--green-dark);
-    }
-
-    .status-text.inactive {
-      color: var(--red);
-    }
-
-    /* Action icons */
-    .action-icons {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      min-height: 48px;
-    }
-
-    .action-icon {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
-      transition: all 0.2s;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .action-icon.view {
-      color: var(--blue);
-    }
-
-    .action-icon.edit {
-      color: var(--amber);
-    }
-
-    .action-icon.delete {
-      color: var(--red);
-    }
-
-    .action-icon:hover {
-      background: var(--surface2);
-      transform: scale(1.1);
-    }
-
-    /* Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(3px);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-card {
-      background: var(--surface);
-      max-width: 450px;
-      width: 90%;
-      border-radius: 28px;
-      padding: 28px;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border);
-    }
-
-    .modal-card h3 {
-      margin-bottom: 20px;
-      color: var(--text);
-      font-weight: 700;
-    }
-
-    .modal-card input,
-    .modal-card select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 14px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      color: var(--text);
-      font-family: 'Poppins', sans-serif;
-      outline: none;
-    }
-
-    .modal-buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-
-    .modal-buttons button {
-      padding: 8px 20px;
-      border-radius: 40px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .btn-cancel {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-    }
-
-    .btn-save {
-      background: var(--green);
-      border: none;
-      color: white;
-    }
-
-    .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 150;
-    }
-
-    .overlay.show {
-      display: block;
-    }
-
-    /* Toast */
-    .toast-notification {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--surface);
-      color: var(--text);
-      padding: 12px 20px;
-      border-radius: 40px;
-      font-size: 13px;
-      font-weight: 500;
-      box-shadow: var(--shadow-lg);
-      border-left: 4px solid var(--green);
-      z-index: 1300;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      backdrop-filter: blur(8px);
-      animation: slideUp 0.2s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 768px) {
       .sidebar {
         transform: translateX(-100%);
         width: 260px;
@@ -1163,6 +1105,15 @@
 
       .sidebar.open {
         transform: translateX(0);
+      }
+
+      .sidebar.open .nav-item span,
+      .sidebar.open .user-details {
+        opacity: 1;
+      }
+
+      .date-badge {
+        display: none;
       }
 
       .main {
@@ -1176,15 +1127,19 @@
 
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
       }
 
       .content-section {
         padding: 20px 16px;
       }
 
-      .employee-header h2 {
-        font-size: 18px;
+      .files-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-wrapper {
+        justify-content: space-between;
       }
     }
   </style>
@@ -1194,9 +1149,7 @@
   <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
   <div class="app">
     <aside class="sidebar" id="sidebar">
-      <div class="sidebar-logo">
-        <img src="https://violet-leopard-500489.hostingersite.com/hr/public/assets/images/hr-logo2.jpg" alt="HMR Logo" class="logo-img">
-      </div>
+      <div class="sidebar-logo"><img src="https://violet-leopard-500489.hostingersite.com/hr/public/assets/images/hr-logo2.jpg" alt="Logo" class="logo-img"></div>
       <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Dashboard</span></a>
       <div class="nav-item active"><i class="fas fa-users"></i><span>Employees</span></div>
       <a href="organizations.html" class="nav-item"><i class="fas fa-briefcase"></i><span>Organizations</span></a>
@@ -1218,8 +1171,7 @@
 
     <div class="main">
       <header class="header">
-        <div class="header-left">
-          <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <div class="header-left"><button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
           <div class="header-title">
             <h1>Employees</h1>
             <p>Staff Listing</p>
@@ -1227,18 +1179,9 @@
         </div>
         <div class="header-right">
           <div class="date-badge"><i class="far fa-calendar-alt"></i> <span id="liveDate"></span></div>
-          <div class="theme-toggle">
-            <button class="theme-btn" id="lightBtn" onclick="setTheme('light')"><i class="fas fa-sun"></i></button>
-            <button class="theme-btn" id="darkBtn" onclick="setTheme('dark')"><i class="fas fa-moon"></i></button>
-          </div>
-
-          <!-- Notification Bell -->
+          <div class="theme-toggle"><button class="theme-btn" id="lightBtn" onclick="setTheme('light')"><i class="fas fa-sun"></i></button><button class="theme-btn" id="darkBtn" onclick="setTheme('dark')"><i class="fas fa-moon"></i></button></div>
           <div class="notification-wrapper">
-            <div class="notification-bell" onclick="toggleNotificationPanel()">
-              <i class="fas fa-bell"></i>
-              <span id="notificationBadge" class="notification-badge">4</span>
-            </div>
-
+            <div class="notification-bell" onclick="toggleNotificationPanel()"><i class="fas fa-bell"></i><span id="notificationBadge" class="notification-badge">4</span></div>
             <!-- Notification Panel -->
             <div id="notificationPanel" class="notification-panel">
               <div class="notification-header">
@@ -1254,27 +1197,15 @@
               </div>
             </div>
           </div>
-
           <div class="avatar-wrapper">
-            <div class="avatar" onclick="toggleProfileMenu()">
-              <img src="https://violet-leopard-500489.hostingersite.com/hr/public/storage/avatars/jnBiWzD1Lt4YMtHS4hK2CS0Pcbo3vSOZw7Xd6px4.jpg" />
-            </div>
+            <div class="avatar" onclick="toggleProfileMenu()"><img src="https://violet-leopard-500489.hostingersite.com/hr/public/storage/avatars/jnBiWzD1Lt4YMtHS4hK2CS0Pcbo3vSOZw7Xd6px4.jpg" /></div>
             <div class="profile-menu" id="profileMenu">
-              <div class="profile-header">
-                <img src="https://violet-leopard-500489.hostingersite.com/hr/public/storage/avatars/jnBiWzD1Lt4YMtHS4hK2CS0Pcbo3vSOZw7Xd6px4.jpg" />
+              <div class="profile-header"><img src="https://violet-leopard-500489.hostingersite.com/hr/public/storage/avatars/jnBiWzD1Lt4YMtHS4hK2CS0Pcbo3vSOZw7Xd6px4.jpg" />
                 <div>
                   <h4>HR</h4>
                   <p>hr@thesay.ae</p>
                 </div>
-              </div>
-              <a href="settings.html" class="menu-item">
-                <i class="fas fa-user"></i>
-                <span>My Profile</span>
-              </a>
-              <a href="index.html" class="menu-item">
-                <i class="fas fa-arrow-right-from-bracket"></i>
-                <span>Sign out</span>
-              </a>
+              </div><a href="#" class="menu-item"><i class="fas fa-user"></i><span>My Profile</span></a><a href="#" class="menu-item"><i class="fas fa-arrow-right-from-bracket"></i><span>Sign out</span></a>
             </div>
           </div>
         </div>
@@ -1282,8 +1213,6 @@
 
       <div class="content-section">
         <div class="stats-grid">
-
-          <!-- Active -->
           <div class="stat-card">
             <div class="stat-header">
               <div class="stat-icon green-bg"><i class="fas fa-user-check"></i></div>
@@ -1291,8 +1220,6 @@
             <div class="stat-number green" id="activeCountStat">0</div>
             <div class="stat-label">Active Employees</div>
           </div>
-
-          <!-- Inactive -->
           <div class="stat-card">
             <div class="stat-header">
               <div class="stat-icon red-bg"><i class="fas fa-user-slash"></i></div>
@@ -1300,8 +1227,6 @@
             <div class="stat-number red" id="inactiveCountStat">0</div>
             <div class="stat-label">Inactive Employees</div>
           </div>
-
-          <!-- NEW: Total Employees -->
           <div class="stat-card">
             <div class="stat-header">
               <div class="stat-icon blue-bg"><i class="fas fa-users"></i></div>
@@ -1309,8 +1234,6 @@
             <div class="stat-number blue" id="totalEmployeesStat">0</div>
             <div class="stat-label">Total Employees</div>
           </div>
-
-          <!-- NEW: On Leave -->
           <div class="stat-card">
             <div class="stat-header">
               <div class="stat-icon amber-bg"><i class="fas fa-calendar-times"></i></div>
@@ -1318,22 +1241,15 @@
             <div class="stat-number amber" id="onLeaveStat">0</div>
             <div class="stat-label">On Leave</div>
           </div>
-
         </div>
 
         <div class="employee-header">
           <div>
             <h2>Employee Directory</h2>
           </div>
-          <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
-            <div class="status-toggler">
-              <button class="toggle-btn active" data-filter="all">All</button>
-              <button class="toggle-btn" data-filter="Active">Active</button>
-              <button class="toggle-btn" data-filter="Inactive">Inactive</button>
-            </div>
-          </div>
-
+          <div class="status-toggler"><button class="toggle-btn active" data-filter="all">All</button><button class="toggle-btn" data-filter="Active">Active</button><button class="toggle-btn" data-filter="Inactive">Inactive</button></div>
         </div>
+
         <div class="files-actions">
           <div class="entries-select"><span>Show entries</span><select id="entriesSelect" onchange="changeEntriesPerPage()">
               <option value="5">5</option>
@@ -1342,7 +1258,7 @@
               <option value="50">50</option>
             </select></div>
           <div class="search-wrapper">
-            <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search records..." onkeyup="filterTable()"></div>
+            <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search by name..." onkeyup="filterTable()"></div>
             <a href="add-employee.html" class="add-employee-btn"><i class="fas fa-plus-circle"></i> Add Employee</a>
           </div>
         </div>
@@ -1356,29 +1272,26 @@
                 <th>DESIGNATION</th>
                 <th>DEPARTMENT</th>
                 <th>COMPANY</th>
-                <th>STATUS (Toggle)</th>
+                <th>STATUS</th>
                 <th>ACTION</th>
               </tr>
             </thead>
             <tbody id="employeeTableBody"></tbody>
           </table>
         </div>
-        <div style="margin-top: 20px; font-size: 12px; color: var(--muted); text-align: right;">
-          <i class="fas fa-address-card"></i> Showing <span id="displayedCount">0</span> employees · Total: <span id="totalCountSpan">0</span>
+
+        <!-- Pagination Controls (same style as leave page) -->
+        <div class="pagination-container">
+          <div id="pageInfo" style="font-size: 12px; color: var(--muted);"></div>
+          <div class="page-buttons" id="paginationButtons"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Add/Edit Modal -->
   <div id="employeeModal" class="modal-overlay">
     <div class="modal-card">
-      <h3 id="modalTitle"><i class="fas fa-user-plus"></i> Add New Employee</h3>
-      <input type="text" id="empName" placeholder="Full Name">
-      <input type="text" id="empDesignation" placeholder="Designation">
-      <input type="text" id="empDepartment" placeholder="Department">
-      <input type="text" id="empCompany" placeholder="Company" value="THESAY">
-      <select id="empStatus">
+      <h3 id="modalTitle"><i class="fas fa-user-plus"></i> Add New Employee</h3><input type="text" id="empName" placeholder="Full Name"><input type="text" id="empDesignation" placeholder="Designation"><input type="text" id="empDepartment" placeholder="Department"><input type="text" id="empCompany" placeholder="Company" value="THESAY"><select id="empStatus">
         <option value="Active">Active</option>
         <option value="Inactive">Inactive</option>
       </select>
@@ -1387,7 +1300,7 @@
   </div>
 
   <script>
-    // Notification Data
+    // ======================== NOTIFICATIONS (stub) ========================
     let notifications = [{
         id: 1,
         title: "The document 'file' is expiring on 2026-04-22.",
@@ -1418,6 +1331,7 @@
       }
     ];
 
+
     function renderNotifications() {
       const list = document.getElementById('notificationList');
       const badge = document.getElementById('notificationBadge');
@@ -1431,14 +1345,14 @@
       if (!list) return;
 
       list.innerHTML = notifications.map(notification => `
-    <div class="notification-item ${!notification.read ? 'unread' : ''}" onclick="markAsRead(${notification.id})">
-      <div class="notification-title">${escapeHtml(notification.title)}</div>
-      <small class="notification-time">${notification.time}</small>
-      <div class="notification-actions">
-        <button class="mark-read-btn" onclick="event.stopPropagation(); markAsRead(${notification.id})">Mark as read</button>
-      </div>
-    </div>
-  `).join('');
+<div class="notification-item ${!notification.read ? 'unread' : ''}" onclick="markAsRead(${notification.id})">
+  <div class="notification-title">${escapeHtml(notification.title)}</div>
+  <small class="notification-time">${notification.time}</small>
+  <div class="notification-actions">
+    <button class="mark-read-btn" onclick="event.stopPropagation(); markAsRead(${notification.id})">Mark as read</button>
+  </div>
+</div>
+`).join('');
 
       if (notifications.length === 0) {
         list.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--muted);">No notifications</div>';
@@ -1467,7 +1381,6 @@
 
     function viewAllNotifications() {
       alert('All notifications: ' + notifications.map(n => n.title).join('\n'));
-      // You can expand this to show a full notifications page
     }
 
     // Close notification panel when clicking outside
@@ -1478,14 +1391,13 @@
         panel.classList.remove('show');
       }
     });
-
-    // Close profile menu when clicking outside (already exists, but ensure it doesn't conflict)
-    // Initialize notifications on load
     renderNotifications();
+
+    // ======================== EMPLOYEE DATA ========================
     let employees = [{
         id: 1,
         name: "JITHIN",
-        designation: "IT Head",
+        designation: "IT Manager",
         department: "IT",
         company: "THESAY",
         status: "Active"
@@ -1493,188 +1405,268 @@
       {
         id: 2,
         name: "FAWZY",
-        designation: "Senior HR Executive",
-        department: "Human Resources",
+        designation: "Business Development Manager",
+        department: "Business Development",
         company: "THESAY",
         status: "Active"
       },
       {
         id: 3,
-        name: "MARIAM ALI",
+        name: "FAHEEM",
+        designation: "Corporate Secretary",
+        department: "Legal/HR/Admin",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 4,
+        name: "ASLAN",
+        designation: "Director",
+        department: "-",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 5,
+        name: "ABHILASH",
         designation: "Finance Manager",
         department: "Finance",
         company: "THESAY",
         status: "Active"
       },
       {
-        id: 4,
-        name: "AHMED HASSAN",
-        designation: "Software Engineer",
-        department: "IT",
-        company: "THESAY",
-        status: "Active"
-      },
-      {
-        id: 5,
-        name: "LATIFA RASHID",
-        designation: "Operations Lead",
-        department: "Operations",
-        company: "THESAY",
-        status: "Active"
-      },
-      {
         id: 6,
-        name: "SARA KHALID",
-        designation: "Sales Executive",
-        department: "Sales",
+        name: "AKSHAY",
+        designation: "General Accountant",
+        department: "Accounts",
         company: "THESAY",
         status: "Inactive"
       },
       {
         id: 7,
-        name: "OMAR FAROUQ",
-        designation: "Accountant",
-        department: "Finance",
+        name: "VIJAY",
+        designation: "Business Head GCC",
+        department: "Business",
         company: "THESAY",
         status: "Inactive"
       },
       {
         id: 8,
-        name: "NOURA ALI",
-        designation: "Marketing Specialist",
-        department: "Marketing",
+        name: "SUNEEL",
+        designation: "Business Development Manager",
+        department: "Business Development",
         company: "THESAY",
         status: "Active"
-      }
+      },
+      {
+        id: 9,
+        name: "SUBHANI",
+        designation: "Business Development Manager",
+        department: "Business Development",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 10,
+        name: "SENTHIL",
+        designation: "General Manager",
+        department: "General Manager",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 11,
+        name: "SANKALP",
+        designation: "Business Development Manager",
+        department: "Business Development",
+        company: "THESAY",
+        status: "Inactive"
+      },
+      {
+        id: 12,
+        name: "SHANOOB",
+        designation: "Digital Marketing Strategist",
+        department: "Digital Marketing",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 13,
+        name: "ILYAS",
+        designation: "Logostics Cordinator",
+        department: "Logostics",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 14,
+        name: "SAFFY",
+        designation: "Business Development Executive",
+        department: "Business Development",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 15,
+        name: "IFTIKAR",
+        designation: "Business Development Executive",
+        department: "Business Development",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 16,
+        name: "PRASHANT",
+        designation: "Regulatory Affairs & QPPV Manager",
+        department: "Manager",
+        company: "THESAY",
+        status: "Inactive"
+      },
+      {
+        id: 17,
+        name: "SARUN",
+        designation: "Regulatory Affairs Asst. Manager GCC",
+        department: "Manager",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 18,
+        name: "CHENNAIA",
+        designation: "Regulatory Affairs Asst. Manager",
+        department: "Manager",
+        company: "THESAY",
+        status: "Active"
+      },
+      {
+        id: 19,
+        name: "YAHYA",
+        designation: "Warehouse Incharge",
+        department: "Warehouse",
+        company: "Warehouse",
+        status: "Active"
+      },
+      {
+        id: 20,
+        name: "MANOJ",
+        designation: "Warehouse Asst Incharge",
+        department: "Warehouse",
+        company: "Warehouse",
+        status: "Inactive"
+      },
     ];
-    let nextId = 9;
+    let nextId = 12;
     let editEmployeeId = null;
     let currentFilter = "all";
+    let currentPage = 1;
+    let perPage = 10;
+    let searchTerm = "";
 
     function getFilteredEmployees() {
-      if (currentFilter === "all") return [...employees];
-      return employees.filter(emp => emp.status === currentFilter);
+      let filtered = [...employees];
+      if (currentFilter !== "all") filtered = filtered.filter(e => e.status === currentFilter);
+      if (searchTerm.trim()) filtered = filtered.filter(e => e.name.toLowerCase().includes(searchTerm.toLowerCase()) || e.designation.toLowerCase().includes(searchTerm.toLowerCase()));
+      return filtered;
     }
 
-    function showToast(message, isSuccess = true) {
-      const toast = document.createElement('div');
-      toast.className = 'toast-notification';
-      toast.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-info-circle'}" style="color: var(--green);"></i> ${message}`;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 2500);
-    }
-
-    // Core function to toggle employee status with alert
-    function toggleEmployeeStatus(empId) {
-      const employee = employees.find(e => e.id === empId);
-      if (!employee) return;
-      const oldStatus = employee.status;
-      const newStatus = oldStatus === "Active" ? "Inactive" : "Active";
-      employee.status = newStatus;
-
-      // Show specific alert based on activation/deactivation
-      if (newStatus === "Active") {
-        showToast(`${employee.name} activated successfully!`, true);
-      } else {
-        showToast(`${employee.name} deactivated.`, false);
-      }
-
-      renderEmployeeTable(); // re-render to reflect toggle & stats
-    }
-
-    function renderEmployeeTable() {
-      const tbody = document.getElementById('employeeTableBody');
-      if (!tbody) return;
+    function renderTable() {
       const filtered = getFilteredEmployees();
+      const totalPages = Math.ceil(filtered.length / perPage);
+      const start = (currentPage - 1) * perPage;
+      const pageItems = filtered.slice(start, start + perPage);
+      const tbody = document.getElementById('employeeTableBody');
       tbody.innerHTML = '';
-      filtered.forEach((emp, idx) => {
-        const serial = idx + 1;
+      pageItems.forEach((emp, idx) => {
+        const serial = start + idx + 1;
         const isActive = emp.status === 'Active';
-        const row = document.createElement('tr');
-        row.innerHTML = `
-        <td>${serial}</td>
-        <td style="font-weight: 500; color: var(--text);">${escapeHtml(emp.name)}</td>
-        <td>${escapeHtml(emp.designation || '—')}</td>
-        <td>${escapeHtml(emp.department || '—')}</td>
-        <td>${escapeHtml(emp.company)}</td>
-        <td>
-          <label class="toggle-switch">
-  <span class="switch">
-    <input type="checkbox" class="status-checkbox" data-id="${emp.id}" ${isActive ? 'checked' : ''}>
-    <span class="toggle-slider"></span>
-  </span>
-
-  <span class="status-text ${isActive ? 'active' : 'inactive'}">
-    ${isActive ? 'Active' : 'Inactive'}
-  </span>
-</label>
-        </td>
-        <td class="action-icons">
-          <button class="action-icon view" onclick="viewEmployee(${emp.id})" title="View"><i class="fas fa-eye"></i></button>
-          <button class="action-icon edit" onclick="editEmployeeById(${emp.id})" title="Edit"><i class="fas fa-edit"></i></button>
-          <button class="action-icon delete" onclick="deleteEmployee(${emp.id})" title="Delete"><i class="fas fa-trash"></i></button>
-        </td>
-      `;
-        tbody.appendChild(row);
+        const row = `<tr><td>${serial}</td><td style="font-weight:500;">${escapeHtml(emp.name)}</td><td>${escapeHtml(emp.designation)}</td><td>${escapeHtml(emp.department)}</td><td>${escapeHtml(emp.company)}</td><td><label class="toggle-switch"><span class="switch"><input type="checkbox" class="status-checkbox" data-id="${emp.id}" ${isActive ? 'checked' : ''}><span class="toggle-slider"></span></span><span class="status-text ${isActive ? 'active' : 'inactive'}">${isActive ? 'Active' : 'Inactive'}</span></label></td><td class="action-icons"><button class="action-icon view" onclick="viewEmployee(${emp.id})"><i class="fas fa-eye"></i></button><button class="action-icon edit" onclick="editEmployeeById(${emp.id})"><i class="fas fa-edit"></i></button><button class="action-icon delete" onclick="deleteEmployee(${emp.id})"><i class="fas fa-trash"></i></button></td></tr>`;
+        tbody.insertAdjacentHTML('beforeend', row);
       });
-
-      // Attach event listeners to all toggles
-      document.querySelectorAll('.status-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', (e) => {
-          e.stopPropagation();
-          const empId = parseInt(checkbox.getAttribute('data-id'));
-          toggleEmployeeStatus(empId);
-        });
-      });
-
-      updateStatsAndCounters(filtered.length);
+      document.querySelectorAll('.status-checkbox').forEach(cb => cb.addEventListener('change', (e) => {
+        e.stopPropagation();
+        toggleEmployeeStatus(parseInt(cb.dataset.id));
+      }));
+      updateStatsAndPagination(filtered.length, totalPages, start, pageItems.length, filtered.length);
     }
 
-    function updateStatsAndCounters(displayedLen = null) {
-      const activeCount = employees.filter(emp => emp.status === 'Active').length;
-      const inactiveCount = employees.filter(emp => emp.status === 'Inactive').length;
-      const totalEmployees = employees.length;
-      document.getElementById('activeCountStat').innerText = activeCount;
-      document.getElementById('inactiveCountStat').innerText = inactiveCount;
-      document.getElementById('totalCountSpan').innerText = employees.length;
-      document.getElementById('totalEmployeesStat').innerText = totalEmployees;
-      document.getElementById('totalCountSpan').innerText = totalEmployees;
-      const displayCount = displayedLen !== null ? displayedLen : getFilteredEmployees().length;
-      document.getElementById('displayedCount').innerText = displayCount;
+    function updateStatsAndPagination(totalFiltered, totalPages, start, currentCount, totalAll) {
+      const active = employees.filter(e => e.status === 'Active').length;
+      const inactive = employees.filter(e => e.status === 'Inactive').length;
+      document.getElementById('activeCountStat').innerText = active;
+      document.getElementById('inactiveCountStat').innerText = inactive;
+      document.getElementById('totalEmployeesStat').innerText = employees.length;
+      document.getElementById('onLeaveStat').innerText = "0"; // placeholder
+      document.getElementById('pageInfo').innerHTML = `Showing ${totalFiltered ? start + 1 : 0} to ${Math.min(start + currentCount, totalFiltered)} of ${totalFiltered} entries`;
+      let buttonsHtml = `<button class="page-btn" onclick="changePage(-1)" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, startPage + 4);
+      if (endPage - startPage + 1 < 5 && startPage > 1) startPage = Math.max(1, endPage - 4);
+      for (let i = startPage; i <= endPage; i++) buttonsHtml += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+      buttonsHtml += `<button class="page-btn" onclick="changePage(1)" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}>›</button>`;
+      document.getElementById('paginationButtons').innerHTML = buttonsHtml;
     }
 
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
+    function changePage(delta) {
+      const filtered = getFilteredEmployees();
+      const totalPages = Math.ceil(filtered.length / perPage);
+      const newPage = currentPage + delta;
+      if (newPage >= 1 && newPage <= totalPages) {
+        currentPage = newPage;
+        renderTable();
+      }
     }
 
-    function openEmployeeModal(isEdit = false, empId = null) {
-      const modal = document.getElementById('employeeModal');
-      modal.style.display = 'flex';
-      if (isEdit && empId !== null) {
-        const emp = employees.find(e => e.id === empId);
-        if (emp) {
-          editEmployeeId = emp.id;
-          document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-edit"></i> Edit Employee';
-          document.getElementById('empName').value = emp.name;
-          document.getElementById('empDesignation').value = emp.designation;
-          document.getElementById('empDepartment').value = emp.department;
-          document.getElementById('empCompany').value = emp.company;
-          document.getElementById('empStatus').value = emp.status;
-        }
-      } else {
-        editEmployeeId = null;
-        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-plus"></i> Add New Employee';
-        document.getElementById('empName').value = '';
-        document.getElementById('empDesignation').value = '';
-        document.getElementById('empDepartment').value = '';
-        document.getElementById('empCompany').value = 'THESAY';
-        document.getElementById('empStatus').value = 'Active';
+    function goToPage(page) {
+      currentPage = page;
+      renderTable();
+    }
+
+    function changeEntriesPerPage() {
+      perPage = parseInt(document.getElementById('entriesSelect').value);
+      currentPage = 1;
+      renderTable();
+    }
+
+    function filterTable() {
+      searchTerm = document.getElementById('searchInput').value;
+      currentPage = 1;
+      renderTable();
+    }
+
+    function toggleEmployeeStatus(id) {
+      const emp = employees.find(e => e.id === id);
+      if (emp) {
+        emp.status = emp.status === "Active" ? "Inactive" : "Active";
+        showToast(`${emp.name} ${emp.status === "Active" ? "activated" : "deactivated"}!`, true);
+        renderTable();
+      }
+    }
+
+    function viewEmployee(id) {
+      const e = employees.find(emp => emp.id === id);
+      if (e) alert(`👤 EMPLOYEE DETAILS\n\nName: ${e.name}\nDesignation: ${e.designation}\nDepartment: ${e.department}\nCompany: ${e.company}\nStatus: ${e.status}`);
+    }
+
+    function editEmployeeById(id) {
+      const emp = employees.find(e => e.id === id);
+      if (emp) {
+        editEmployeeId = emp.id;
+        document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-edit"></i> Edit Employee';
+        document.getElementById('empName').value = emp.name;
+        document.getElementById('empDesignation').value = emp.designation;
+        document.getElementById('empDepartment').value = emp.department;
+        document.getElementById('empCompany').value = emp.company;
+        document.getElementById('empStatus').value = emp.status;
+        document.getElementById('employeeModal').style.display = 'flex';
+      }
+    }
+
+    function deleteEmployee(id) {
+      if (confirm("Remove this employee?")) {
+        employees = employees.filter(e => e.id !== id);
+        if (employees.length === 0 && currentPage > 1) currentPage--;
+        renderTable();
+        showToast("Employee removed", false);
       }
     }
 
@@ -1685,78 +1677,68 @@
 
     function saveEmployee() {
       const name = document.getElementById('empName').value.trim();
-      const designation = document.getElementById('empDesignation').value.trim();
-      const department = document.getElementById('empDepartment').value.trim();
-      const company = document.getElementById('empCompany').value.trim();
+      if (!name) return alert("Name required");
+      const designation = document.getElementById('empDesignation').value.trim() || "Staff";
+      const department = document.getElementById('empDepartment').value.trim() || "General";
+      const company = document.getElementById('empCompany').value.trim() || "THESAY";
       const status = document.getElementById('empStatus').value;
-      if (!name) {
-        alert('Employee name is required');
-        return;
-      }
       if (editEmployeeId !== null) {
-        const index = employees.findIndex(e => e.id === editEmployeeId);
-        if (index !== -1) {
-          employees[index] = {
-            ...employees[index],
-            name,
-            designation: designation || "Staff",
-            department: department || "General",
-            company: company || "THESAY",
-            status
-          };
-          showToast(`✏️ ${name} updated`);
-        }
-      } else {
-        const newEmp = {
-          id: nextId++,
+        const idx = employees.findIndex(e => e.id === editEmployeeId);
+        if (idx !== -1) employees[idx] = {
+          ...employees[idx],
           name,
-          designation: designation || "Staff",
-          department: department || "General",
-          company: company || "THESAY",
+          designation,
+          department,
+          company,
           status
         };
-        employees.push(newEmp);
-        showToast(`✓ ${name} added successfully`);
+        showToast(`✏️ ${name} updated`);
+      } else {
+        employees.push({
+          id: nextId++,
+          name,
+          designation,
+          department,
+          company,
+          status
+        });
+        showToast(`✓ ${name} added`);
       }
-      renderEmployeeTable();
       closeEmployeeModal();
-    }
-
-    function viewEmployee(empId) {
-      const emp = employees.find(e => e.id === empId);
-      if (emp) alert(`👤 EMPLOYEE DETAILS\n\nName: ${emp.name}\nDesignation: ${emp.designation}\nDepartment: ${emp.department}\nCompany: ${emp.company}\nStatus: ${emp.status}`);
-    }
-
-    function editEmployeeById(empId) {
-      openEmployeeModal(true, empId);
-    }
-
-    function deleteEmployee(empId) {
-      const emp = employees.find(e => e.id === empId);
-      if (emp && confirm(`Remove "${emp.name}" from the employee list?`)) {
-        employees = employees.filter(e => e.id !== empId);
-        renderEmployeeTable();
-        showToast(`🗑️ ${emp.name} removed`);
-      }
+      renderTable();
     }
 
     function setFilter(filter) {
       currentFilter = filter;
-      document.querySelectorAll('.toggle-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === filter);
-      });
-      renderEmployeeTable();
+      document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === filter));
+      currentPage = 1;
+      renderTable();
     }
 
-    // Sidebar, Theme, Profile, Date
-    function toggleProfileMenu() {
-      const menu = document.getElementById('profileMenu');
-      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+      } [m]));
     }
-    document.addEventListener('click', function(e) {
-      const wrapper = document.querySelector('.avatar-wrapper');
-      const menu = document.getElementById('profileMenu');
-      if (wrapper && !wrapper.contains(e.target) && menu) menu.style.display = 'none';
+
+    function showToast(msg, ok = true) {
+      const t = document.createElement('div');
+      t.className = 'toast-notification';
+      t.innerHTML = `<i class="fas ${ok ? 'fa-check-circle' : 'fa-info-circle'}"></i> ${msg}`;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2500);
+    }
+
+    // UI Helpers
+    function toggleProfileMenu() {
+      const m = document.getElementById('profileMenu');
+      m.style.display = m.style.display === 'block' ? 'none' : 'block';
+    }
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.avatar-wrapper')) document.getElementById('profileMenu') && (document.getElementById('profileMenu').style.display = 'none');
     });
 
     function setTheme(theme) {
@@ -1777,25 +1759,22 @@
     }
 
     function updateLiveDate() {
-      const span = document.getElementById('liveDate');
-      if (span) span.textContent = new Date().toLocaleDateString('en-US', {
+      const d = document.getElementById('liveDate');
+      if (d) d.textContent = new Date().toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
         day: 'numeric'
       });
     }
-
     document.addEventListener('DOMContentLoaded', () => {
       updateLiveDate();
-      const savedTheme = localStorage.getItem('hr-theme') || 'light';
-      setTheme(savedTheme);
-      renderEmployeeTable();
-      document.getElementById('addEmployeeBtn').addEventListener('click', () => openEmployeeModal(false));
+      const saved = localStorage.getItem('hr-theme') || 'light';
+      setTheme(saved);
+      renderTable();
       document.querySelectorAll('.toggle-btn').forEach(btn => btn.addEventListener('click', () => setFilter(btn.dataset.filter)));
-      const modal = document.getElementById('employeeModal');
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeEmployeeModal();
+      document.getElementById('employeeModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('employeeModal')) closeEmployeeModal();
       });
     });
   </script>

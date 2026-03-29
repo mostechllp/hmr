@@ -530,6 +530,7 @@
       gap: 8px;
       box-shadow: 0 2px 8px rgba(46, 204, 113, 0.25);
       transition: 0.2s;
+      text-decoration: none;
     }
 
     .add-btn:hover {
@@ -794,6 +795,45 @@
       }
     }
 
+    /* pagination */
+    /* Pagination */
+    .pagination-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .page-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+
+    .page-btn.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: white;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     /* Notification Bell & Panel */
     .notification-wrapper {
       position: relative;
@@ -957,6 +997,10 @@
         transform: scale(0.85);
       }
 
+      .date-badge {
+        display: none;
+      }
+
       .notification-bell {
         width: 34px;
         height: 34px;
@@ -966,6 +1010,7 @@
         width: 34px;
         height: 34px;
       }
+
       .notification-panel {
         width: 320px;
         right: -50px;
@@ -1009,6 +1054,7 @@
       .header-title p {
         font-size: 10px;
       }
+
       .sidebar {
         transform: translateX(-100%);
         width: 260px;
@@ -1192,7 +1238,7 @@
               <i class="fas fa-search"></i>
               <input type="text" id="searchInput" placeholder="Search by name, email..." onkeyup="filterTable()">
             </div>
-            <button class="add-btn" id="addOrgBtn"><i class="fas fa-plus-circle"></i> Add Company</button>
+            <a href="add-company.html" class="add-btn"><i class="fas fa-plus-circle"></i> Add Company</a>
           </div>
         </div>
 
@@ -1213,8 +1259,10 @@
             <tbody id="orgTableBody"></tbody>
           </table>
         </div>
-        <div style="margin-top: 20px; font-size: 12px; color: var(--muted); text-align: right;">
-          <i class="fas fa-building"></i> Showing <span id="displayedCount">0</span> organizations · Total: <span id="totalCountSpan">0</span>
+        <!-- Pagination -->
+        <div class="pagination-container">
+          <div id="pageInfo" style="font-size: 12px; color: var(--muted);"></div>
+          <div class="page-buttons" id="paginationButtons"></div>
         </div>
       </div>
     </div>
@@ -1345,36 +1393,28 @@
       },
       {
         id: 2,
-        name: "NEXUS CORP",
+        name: "SAYGEN",
         phone: "+971 4 567 8901",
-        email: "contact@nexus.ae",
+        email: "contact@saygen.ae",
         multiCompany: "Yes",
         createdAt: "15 Jan, 2025"
       },
       {
         id: 3,
-        name: "PRIME SOLUTIONS",
+        name: "WAREHOUSE",
         phone: "+971 2 345 6789",
-        email: "admin@prime.ae",
+        email: "admin@warehouse.ae",
         multiCompany: "No",
         createdAt: "03 Sep, 2024"
       },
       {
         id: 4,
-        name: "VISTA HOLDINGS",
+        name: "FARMASSAY",
         phone: "+971 56 789 1234",
-        email: "info@vista.ae",
+        email: "info@farmassay.ae",
         multiCompany: "Yes",
         createdAt: "22 Nov, 2024"
       },
-      {
-        id: 5,
-        name: "GLOBAL TECH",
-        phone: "+971 50 123 4567",
-        email: "support@globaltech.com",
-        multiCompany: "No",
-        createdAt: "10 Feb, 2025"
-      }
     ];
     let nextId = 6;
     let editOrgId = null;
@@ -1406,6 +1446,7 @@
       const tbody = document.getElementById('orgTableBody');
       if (!tbody) return;
       const filtered = getFilteredOrgs();
+      const totalPages = Math.ceil(filtered.length / perPage);
       const start = (currentPage - 1) * perPage;
       const pageOrgs = filtered.slice(start, start + perPage);
 
@@ -1413,65 +1454,60 @@
       pageOrgs.forEach((org, idx) => {
         const serial = start + idx + 1;
         const row = document.createElement('tr');
-        // Logo: briefcase icon with first letter
         const logoLetter = org.name.charAt(0);
         row.innerHTML = `
-          <td><div class="org-logo"><i class="fas fa-briefcase"></i></div></td>
-          <td style="font-weight: 600; color: var(--text);">${escapeHtml(org.name)}</td>
-          <td>${escapeHtml(org.phone)}</td>
-          <td>${escapeHtml(org.email)}</td>
-          <td>
-            <span class="multi-company-badge" onclick="viewSubsidiaries('${escapeHtml(org.name)}')">
-              <i class="fas ${org.multiCompany === 'Yes' ? 'fa-sitemap' : 'fa-building'}"></i>
-              ${org.multiCompany === 'Yes' ? 'Manage Companies' : 'Single Entity'}
-            </span>
-          </td>
-          <td>${escapeHtml(org.createdAt)}</td>
-          <td class="action-icons">
-            <button class="action-icon edit" onclick="editOrganization(${org.id})" title="Edit"><i class="fas fa-edit"></i></button>
-            <button class="action-icon delete" onclick="deleteOrganization(${org.id})" title="Delete"><i class="fas fa-trash"></i></button>
-          </td>
-        `;
+      <td><div class="org-logo"><i class="fas fa-briefcase"></i></div></td>
+      <td style="font-weight: 600; color: var(--text);">${escapeHtml(org.name)}</td>
+      <td>${escapeHtml(org.phone)}</td>
+      <td>${escapeHtml(org.email)}</td>
+      <td>
+        <span class="multi-company-badge" onclick="viewSubsidiaries('${escapeHtml(org.name)}')">
+          <i class="fas ${org.multiCompany === 'Yes' ? 'fa-sitemap' : 'fa-building'}"></i>
+          ${org.multiCompany === 'Yes' ? 'Manage Companies' : 'Single Entity'}
+        </span>
+      </td>
+      <td>${escapeHtml(org.createdAt)}</td>
+      <td class="action-icons">
+        <button class="action-icon edit" onclick="editOrganization(${org.id})" title="Edit"><i class="fas fa-edit"></i></button>
+        <button class="action-icon delete" onclick="deleteOrganization(${org.id})" title="Delete"><i class="fas fa-trash"></i></button>
+      </td>
+    `;
         tbody.appendChild(row);
       });
 
       const totalFiltered = filtered.length;
-      const totalPages = Math.ceil(totalFiltered / perPage);
-      document.getElementById('displayedCount').innerText = pageOrgs.length;
-      document.getElementById('totalCountSpan').innerText = organizations.length;
       document.getElementById('totalOrgsStat').innerText = organizations.length;
       const multiCount = organizations.filter(o => o.multiCompany === 'Yes').length;
       document.getElementById('multiCompanyStat').innerText = multiCount;
 
-      // Pagination UI update (simple next/prev)
-      updatePaginationControls(totalPages);
+      // Update pagination info and buttons
+      document.getElementById('pageInfo').innerHTML = `Showing ${totalFiltered ? start + 1 : 0} to ${Math.min(start + perPage, totalFiltered)} of ${totalFiltered} entries`;
+
+      // Pagination buttons
+      const paginationDiv = document.getElementById('paginationButtons');
+      let buttonsHtml = `<button class="page-btn" onclick="changePage(-1)" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+      if (endPage - startPage + 1 < maxVisible && startPage > 1) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        buttonsHtml += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+      }
+
+      if (totalPages > maxVisible && endPage < totalPages) {
+        buttonsHtml += `<span style="padding: 0 4px;">...</span>`;
+        buttonsHtml += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+      }
+
+      buttonsHtml += `<button class="page-btn" onclick="changePage(1)" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}>›</button>`;
+      paginationDiv.innerHTML = buttonsHtml;
     }
 
-    function updatePaginationControls(totalPages) {
-      const paginationDiv = document.getElementById('paginationControls');
-      if (!paginationDiv) {
-        // Create pagination div if not exists
-        const container = document.querySelector('.org-table-wrapper');
-        const existingPagination = document.getElementById('paginationControls');
-        if (!existingPagination) {
-          const newDiv = document.createElement('div');
-          newDiv.id = 'paginationControls';
-          newDiv.style.display = 'flex';
-          newDiv.style.justifyContent = 'flex-end';
-          newDiv.style.gap = '8px';
-          newDiv.style.marginTop = '16px';
-          container?.after(newDiv);
-        }
-      }
-      const paginationDivElem = document.getElementById('paginationControls');
-      if (paginationDivElem) {
-        paginationDivElem.innerHTML = `
-          <button class="page-btn" onclick="changePage(-1)" ${currentPage === 1 ? 'disabled' : ''} style="padding:6px 12px; border-radius:8px; border:1px solid var(--border); background:var(--surface); cursor:pointer;">← Previous</button>
-          <span style="font-size:12px; padding:6px 12px;">Page ${currentPage} of ${totalPages || 1}</span>
-          <button class="page-btn" onclick="changePage(1)" ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''} style="padding:6px 12px; border-radius:8px; border:1px solid var(--border); background:var(--surface); cursor:pointer;">Next →</button>
-        `;
-      }
-    }
+
 
     function changePage(delta) {
       const filtered = getFilteredOrgs();
@@ -1481,6 +1517,11 @@
         currentPage = newPage;
         renderOrgTable();
       }
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      renderOrgTable();
     }
 
     function changeEntriesPerPage() {

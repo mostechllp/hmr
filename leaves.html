@@ -584,6 +584,7 @@
       gap: 8px;
       box-shadow: 0 2px 8px rgba(46, 204, 113, 0.25);
       transition: 0.2s;
+      text-decoration: none;
     }
 
     .add-btn:hover {
@@ -1337,7 +1338,7 @@
               <i class="fas fa-search"></i>
               <input type="text" id="searchInput" placeholder="Search by employee..." onkeyup="filterTable()">
             </div>
-            <button class="add-btn"><i class="fas fa-briefcase"></i>Manage leave types</button>
+            <a href="Leave-type-management.html" class="add-btn"><i class="fas fa-briefcase"></i>Manage leave types</a>
 
           </div>
         </div>
@@ -1484,15 +1485,15 @@
     let leaveRequests = [{
         id: 1,
         employee: "JITHIN",
-        type: "Casual Leave",
-        fromDate: "03/04/2026",
-        toDate: "03/04/2026",
-        days: 1,
-        claimSalary: "No",
+        type: "Annual Leave",
+        fromDate: "01/04/2026",
+        toDate: "20/04/2026",
+        days: 20,
+        claimSalary: "Yes",
         doc: "-",
-        reason: "Request for casual leave for personal work",
-        status: "Pending",
-        processedBy: "N/A"
+        reason: "Request for annual leave",
+        status: "Approved",
+        processedBy: "HR Manager"
       },
       {
         id: 2,
@@ -1509,7 +1510,7 @@
       },
       {
         id: 3,
-        employee: "MARIAM ALI",
+        employee: "FAHEEM",
         type: "Annual Leave",
         fromDate: "10 Apr, 2026",
         toDate: "20 Apr, 2026",
@@ -1522,7 +1523,7 @@
       },
       {
         id: 4,
-        employee: "AHMED HASSAN",
+        employee: "ABHILASH",
         type: "Emergency Leave",
         fromDate: "01 Apr, 2026",
         toDate: "02 Apr, 2026",
@@ -1535,20 +1536,20 @@
       },
       {
         id: 5,
-        employee: "LATIFA RASHID",
-        type: "Casual Leave",
-        fromDate: "08 Apr, 2026",
-        toDate: "08 Apr, 2026",
-        days: 1,
+        employee: "AKSHAY",
+        type: "Flood",
+        fromDate: "02 Apr, 2026",
+        toDate: "03 Apr, 2026",
+        days: 2,
         claimSalary: "No",
         doc: "-",
-        reason: "Personal appointment",
-        status: "Rejected",
+        reason: "Severe flood on the way",
+        status: "Approved",
         processedBy: "HR Admin"
       },
       {
         id: 6,
-        employee: "SNEHA",
+        employee: "VIJAY",
         type: "Sick Leave",
         fromDate: "12 Apr, 2026",
         toDate: "13 Apr, 2026",
@@ -1561,7 +1562,7 @@
       },
       {
         id: 7,
-        employee: "RAHUL",
+        employee: "SUNEEL",
         type: "Annual Leave",
         fromDate: "15 Apr, 2026",
         toDate: "25 Apr, 2026",
@@ -1574,40 +1575,40 @@
       },
       {
         id: 8,
-        employee: "PRIYA",
-        type: "Casual Leave",
+        employee: "SUBHANI",
+        type: "Sick Leave",
         fromDate: "07 Apr, 2026",
         toDate: "07 Apr, 2026",
         days: 1,
         claimSalary: "No",
         doc: "-",
-        reason: "Urgent personal work",
-        status: "Approved",
+        reason: "Cough",
+        status: "Rejected",
         processedBy: "HR Admin"
       },
       {
         id: 9,
-        employee: "VIKRAM",
-        type: "Sick Leave",
+        employee: "SENTIL",
+        type: "Annual Leave",
         fromDate: "09 Apr, 2026",
-        toDate: "10 Apr, 2026",
-        days: 2,
+        toDate: "19 Apr, 2026",
+        days: 10,
         claimSalary: "Yes",
-        doc: "medical_report.pdf",
-        reason: "Severe headache",
-        status: "Rejected",
+        doc: "-",
+        reason: "Annual Leave Vacation",
+        status: "Pending",
         processedBy: "HR Manager"
       },
       {
         id: 10,
-        employee: "NEHA",
-        type: "Casual Leave",
+        employee: "SHANOOB",
+        type: "Flood",
         fromDate: "14 Apr, 2026",
         toDate: "14 Apr, 2026",
         days: 1,
         claimSalary: "No",
         doc: "-",
-        reason: "Personal work",
+        reason: "Can't step out of the flat",
         status: "Pending",
         processedBy: "N/A"
       }

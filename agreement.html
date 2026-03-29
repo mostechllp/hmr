@@ -575,6 +575,7 @@
       gap: 8px;
       box-shadow: 0 2px 8px rgba(46, 204, 113, 0.25);
       transition: 0.2s;
+      text-decoration: none;
     }
 
     .add-btn:hover {
@@ -1323,7 +1324,7 @@
               <i class="fas fa-search"></i>
               <input type="text" id="searchInput" placeholder="Search records..." onkeyup="filterTable()">
             </div>
-            <button class="add-btn" id="addAgreementBtn"><i class="fas fa-plus-circle"></i> Add Agreement</button>
+            <a href="add-agreement.html" class="add-btn"><i class="fas fa-plus-circle"></i> Add Agreement</a>
           </div>
         </div>
 
@@ -1479,9 +1480,9 @@
       },
       {
         id: 2,
-        name: "NDA Agreement",
-        folder: "Legal",
-        shareWith: "Legal Dept",
+        name: "Employee Termination Agreement",
+        folder: "Agreements",
+        shareWith: "Procurement",
         expiry: "2027-06-15"
       },
       {
@@ -1535,41 +1536,34 @@
       },
       {
         id: 10,
-        name: "Local file test",
-        folder: "Agreements",
-        shareWith: "IT",
-        expiry: "2026-03-19"
-      },
-      {
-        id: 11,
         name: "Consultancy Agreement",
         folder: "Agreements",
         shareWith: "External Partners",
         expiry: "2025-10-05"
       },
       {
-        id: 12,
+        id: 11,
         name: "Lease Agreement - Office Space",
         folder: "Legal",
         shareWith: "Admin",
         expiry: "2026-08-14"
       },
       {
-        id: 13,
+        id: 12,
         name: "Non-Compete Clause",
         folder: "HR",
         shareWith: "Senior Management",
         expiry: "2027-01-30"
       },
       {
-        id: 14,
+        id: 13,
         name: "Cloud Services Contract",
         folder: "IT",
         shareWith: "IT Operations",
         expiry: "2025-11-25"
       },
       {
-        id: 15,
+        id: 14,
         name: "Insurance Policy",
         folder: "Finance",
         shareWith: "Finance Dept",
@@ -1675,7 +1669,7 @@
 
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${serial}${item.id === 10 ? ' (Local file test)' : ''}</td>
+          <td>${serial}</td>
           <td style="font-weight: 600; color: var(--text);">${escapeHtml(item.name)}</td>
           <td><span class="folder-badge ${folderClass}">${escapeHtml(item.folder)}</span></td>
           <td><span class="share-badge"><i class="fas fa-share-alt"></i> ${escapeHtml(item.shareWith)}</span></td>

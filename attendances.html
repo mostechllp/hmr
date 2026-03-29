@@ -967,11 +967,242 @@
       margin-left: 12px;
     }
 
+
     @media (max-width: 480px) {
       .notification-panel {
         width: 320px;
         right: -50px;
       }
+    }
+
+    /* Upload files modal */
+
+    /* Upload Modal */
+    .upload-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(3px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .upload-modal-card {
+      background: var(--surface);
+      max-width: 550px;
+      width: 90%;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .upload-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .upload-modal-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .upload-modal-header h3 i {
+      color: var(--green);
+      font-size: 22px;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: 0.2s;
+    }
+
+    .close-modal:hover {
+      color: var(--red);
+    }
+
+    .upload-form-field {
+      margin-bottom: 24px;
+    }
+
+    .upload-form-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .upload-form-field label i {
+      color: var(--green);
+      margin-right: 6px;
+    }
+
+    .upload-form-field label .required {
+      color: var(--red);
+      margin-left: 4px;
+    }
+
+    .upload-form-field select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .upload-form-field select:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-glow);
+    }
+
+    /* File Upload Area inside Modal */
+    .modal-file-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--surface2);
+    }
+
+    .modal-file-upload-area:hover {
+      border-color: var(--green);
+      background: var(--green-glow);
+    }
+
+    .modal-upload-icon {
+      font-size: 48px;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+
+    .modal-upload-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .modal-upload-hint {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .modal-file-info {
+      margin-top: 12px;
+      padding: 10px;
+      background: var(--green-glow);
+      border-radius: var(--radius-sm);
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-file-info.show {
+      display: flex;
+    }
+
+    .modal-file-details {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-file-details i {
+      font-size: 24px;
+      color: var(--green);
+    }
+
+    .modal-file-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .modal-file-size {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .modal-remove-file {
+      background: none;
+      border: none;
+      color: var(--red);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .modal-cancel-btn {
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: 0.2s;
+    }
+
+    .modal-cancel-btn:hover {
+      background: var(--surface2);
+    }
+
+    .modal-upload-btn {
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--green);
+      border: none;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+
+    .modal-upload-btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+    }
+
+    .modal-upload-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     /* Responsive */
@@ -1087,6 +1318,7 @@
         width: 34px;
         height: 34px;
       }
+
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
@@ -1241,8 +1473,9 @@
             <select id="companyFilter" class="filter-select" onchange="applyFilters()">
               <option value="all">All Companies</option>
               <option value="THESAY">THESAY</option>
-              <option value="NEXUS">NEXUS Corp</option>
-              <option value="PRIME">Prime Solutions</option>
+              <option value="SAYGEN">SAYGEN</option>
+              <option value="warehouse">Warehouse</option>
+              <option value="farmassay">Farmassay</option>
             </select>
             <input type="text" id="employeeNameFilter" class="search-input" placeholder="Employee Name..." onkeyup="applyFilters()">
             <button class="date-filter-btn" onclick="openDateFilter()"><i class="fas fa-calendar-alt"></i> Date Filter <i class="fas fa-chevron-down"></i></button>
@@ -1293,6 +1526,56 @@
           <div class="page-buttons" id="paginationButtons"></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Upload Attendance Modal -->
+  <div id="uploadModal" class="upload-modal">
+    <div class="upload-modal-card">
+      <div class="upload-modal-header">
+        <h3><i class="fas fa-cloud-upload-alt"></i> Upload Attendance</h3>
+        <button class="close-modal" onclick="closeUploadModal()">&times;</button>
+      </div>
+
+      <form id="uploadAttendanceForm" onsubmit="uploadAttendanceFile(event)">
+        <div class="upload-form-field">
+          <label><i class="fas fa-building"></i> Select Company <span class="required">*</span></label>
+          <select id="uploadCompany" required>
+            <option value="">Select Company</option>
+            <option value="THESAY">THESAY</option>
+            <option value="SAYGEN">SAYGEN</option>
+            <option value="warehouse">Warehouse</option>
+            <option value="farmassay">Farmassay</option>
+          </select>
+        </div>
+
+        <div class="upload-form-field">
+          <label><i class="fas fa-file-alt"></i> Attendance File <span class="required">*</span></label>
+          <div class="modal-file-upload-area" onclick="document.getElementById('attendanceFileInput').click()">
+            <div class="modal-upload-icon">
+              <i class="fas fa-file-upload"></i>
+            </div>
+            <div class="modal-upload-text">Click to upload attendance file</div>
+            <div class="modal-upload-hint">Accepted formats: .dat (space-separated) or .csv</div>
+          </div>
+          <input type="file" id="attendanceFileInput" accept=".dat,.csv,.txt" style="display: none;" onchange="handleAttendanceFileSelect(this)">
+          <div id="modalFileInfo" class="modal-file-info">
+            <div class="modal-file-details">
+              <i class="fas fa-file-csv"></i>
+              <div>
+                <div class="modal-file-name" id="modalFileName">-</div>
+                <div class="modal-file-size" id="modalFileSize">-</div>
+              </div>
+            </div>
+            <button type="button" class="modal-remove-file" onclick="removeAttendanceFile()"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="button" class="modal-cancel-btn" onclick="closeUploadModal()">Cancel</button>
+          <button type="submit" class="modal-upload-btn" id="uploadSubmitBtn" disabled><i class="fas fa-upload"></i> Upload</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1393,11 +1676,11 @@
     // Initialize notifications on load
     renderNotifications();
     // Generate dummy attendance data (80+ records for demo)
-    const companies = ["THESAY", "NEXUS Corp", "Prime Solutions"];
+    const companies = ["THESAY"];
     const employees = [
-      "SNEHA", "CHENNAIH", "RUCHIRA", "SAFI", "KSENIA", "FAWZY", "SANKALP", "LENA", "VIJAY", "SUNEEL",
-      "AMIT", "PRIYA", "RAHUL", "NEHA", "ARJUN", "DEEPAK", "ANJALI", "VIKRAM", "SWATI", "MANOJ",
-      "KAVYA", "ROHIT", "MEERA", "NIKHIL", "TANVI", "RAJESH", "POOJA", "SIDDHARTH", "ISHA", "KARAN"
+      "FAHEEM", "ASLAN", "ABHILASH", "AKSHAY", "VIJAY", "FAWZY", "SANKALP", "SUBHANI", "SENTIL", "SUNEEL",
+      "SHANOOB", "JITHIN", "ILYAS", "SAFFI", "IFTIKAR", "PRASHANT", "SARUN", "CHENNAIA", "YAHYA", "MANOJ",
+      "VIJAY", "FARZAN", "SHAHID", "RUCHI", "KATE", "LENA", "DEEPITA", "SHOKISTA", "KSENIA", "AMINA"
     ];
 
     let attendanceRecords = [];
@@ -1662,6 +1945,136 @@
       navs.forEach(nav => nav.classList.remove('active'));
       const attendanceNav = Array.from(navs).find(n => n.innerText.includes('Attendance'));
       if (attendanceNav) attendanceNav.classList.add('active');
+    });
+
+    // modal
+    let selectedAttendanceFile = null;
+
+    function openUploadModal() {
+      const modal = document.getElementById('uploadModal');
+      if (modal) {
+        modal.style.display = 'flex';
+        // Reset form
+        document.getElementById('uploadCompany').value = '';
+        document.getElementById('attendanceFileInput').value = '';
+        document.getElementById('modalFileInfo').classList.remove('show');
+        selectedAttendanceFile = null;
+        document.getElementById('uploadSubmitBtn').disabled = true;
+      }
+    }
+
+    function closeUploadModal() {
+      const modal = document.getElementById('uploadModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+
+    function handleAttendanceFileSelect(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const fileSize = file.size / 1024 / 1024;
+        const validExtensions = ['.dat', '.csv', '.txt'];
+        const fileExt = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+
+        if (!validExtensions.includes(fileExt)) {
+          showToast('Please upload .dat or .csv files only', false);
+          input.value = '';
+          return;
+        }
+
+        if (fileSize > 10) {
+          showToast('File size must be less than 10MB', false);
+          input.value = '';
+          return;
+        }
+
+        selectedAttendanceFile = file;
+
+        const fileInfo = document.getElementById('modalFileInfo');
+        const fileName = document.getElementById('modalFileName');
+        const fileSizeSpan = document.getElementById('modalFileSize');
+        const fileIcon = fileInfo.querySelector('.modal-file-details i');
+
+        if (fileExt === '.csv') {
+          fileIcon.className = 'fas fa-file-csv';
+        } else if (fileExt === '.dat') {
+          fileIcon.className = 'fas fa-file-alt';
+        } else {
+          fileIcon.className = 'fas fa-file-code';
+        }
+
+        fileName.textContent = file.name;
+        fileSizeSpan.textContent = fileSize.toFixed(2) + ' MB';
+        fileInfo.classList.add('show');
+
+        // Enable submit button if company is selected
+        const company = document.getElementById('uploadCompany').value;
+        document.getElementById('uploadSubmitBtn').disabled = !company;
+      }
+    }
+
+    function removeAttendanceFile() {
+      selectedAttendanceFile = null;
+      document.getElementById('attendanceFileInput').value = '';
+      document.getElementById('modalFileInfo').classList.remove('show');
+      document.getElementById('uploadSubmitBtn').disabled = true;
+    }
+
+    // Listen for company selection change
+    document.addEventListener('DOMContentLoaded', () => {
+      const companySelect = document.getElementById('uploadCompany');
+      if (companySelect) {
+        companySelect.addEventListener('change', function() {
+          const submitBtn = document.getElementById('uploadSubmitBtn');
+          if (submitBtn) {
+            submitBtn.disabled = !(this.value && selectedAttendanceFile);
+          }
+        });
+      }
+    });
+
+    function uploadAttendanceFile(event) {
+      event.preventDefault();
+
+      const company = document.getElementById('uploadCompany').value;
+
+      if (!company) {
+        showToast('Please select a company', false);
+        return;
+      }
+
+      if (!selectedAttendanceFile) {
+        showToast('Please select an attendance file', false);
+        return;
+      }
+
+      // Simulate upload (replace with actual API call)
+      showToast(`📤 Uploading "${selectedAttendanceFile.name}" for ${company}...`, true);
+
+      // Simulate processing delay
+      setTimeout(() => {
+        showToast(`✓ Attendance file "${selectedAttendanceFile.name}" uploaded and processed successfully!`, true);
+        closeUploadModal();
+        // Refresh attendance data here if needed
+        // renderAttendanceTable();
+      }, 1500);
+    }
+
+    // Add click listener for the Upload Logs button
+    document.addEventListener('DOMContentLoaded', () => {
+      const uploadBtn = document.getElementById('addEmployeeBtn');
+      if (uploadBtn) {
+        uploadBtn.addEventListener('click', openUploadModal);
+      }
+    });
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('uploadModal');
+      if (modal && e.target === modal) {
+        closeUploadModal();
+      }
     });
   </script>
 </body>
