@@ -897,6 +897,177 @@
       cursor: pointer;
     }
 
+    /* Export Modal */
+    .export-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(3px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .export-modal-card {
+      background: var(--surface);
+      max-width: 500px;
+      width: 90%;
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+    }
+
+    .export-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .export-modal-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .export-modal-header h3 i {
+      color: var(--green);
+      font-size: 22px;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: 0.2s;
+    }
+
+    .close-modal:hover {
+      color: var(--red);
+    }
+
+    .export-form-field {
+      margin-bottom: 20px;
+    }
+
+    .export-form-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .export-form-field label i {
+      color: var(--green);
+      margin-right: 6px;
+    }
+
+    .export-form-field select,
+    .export-form-field input {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .export-form-field select:focus,
+    .export-form-field input:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px var(--green-glow);
+    }
+
+    .date-range-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .export-modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .export-cancel-btn {
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: 0.2s;
+    }
+
+    .export-cancel-btn:hover {
+      background: var(--surface2);
+    }
+
+    .export-confirm-btn {
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--green);
+      border: none;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+
+    .export-confirm-btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-badge.active {
+      background: rgba(46, 204, 113, 0.15);
+      color: var(--green-dark);
+    }
+
+    .status-badge.inactive {
+      background: rgba(231, 76, 60, 0.15);
+      color: var(--red);
+    }
+
+    .status-badge.late {
+      background: rgba(243, 156, 18, 0.15);
+      color: var(--amber);
+    }
+
     @media (max-width: 768px) {
       .header {
         padding: 12px 16px;
@@ -1145,7 +1316,7 @@
               <i class="fas fa-search"></i>
               <input type="text" id="searchInput" placeholder="Search records..." onkeyup="filterTable()">
             </div>
-            <button class="export-btn" onclick="exportReport()"><i class="fas fa-download"></i> Export Report</button>
+            <button class="export-btn" onclick="openExportModal()"><i class="fas fa-download"></i> Export Report</button>
           </div>
         </div>
 
@@ -1170,6 +1341,44 @@
           <div class="page-buttons" id="paginationButtons"></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div id="exportModal" class="export-modal">
+    <div class="export-modal-card">
+      <div class="export-modal-header">
+        <h3><i class="fas fa-download"></i> Export Report</h3>
+        <button class="close-modal" onclick="closeExportModal()">&times;</button>
+      </div>
+
+      <form id="exportForm" onsubmit="exportReportData(event)">
+        <div class="export-form-field">
+          <label><i class="fas fa-calendar-alt"></i> Date Range</label>
+          <select id="dateRangeSelect" onchange="toggleDateRange()">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="custom">Custom Range</option>
+          </select>
+        </div>
+
+        <div id="customDateRange" style="display: none;">
+          <div class="export-form-field">
+            <label><i class="fas fa-calendar-day"></i> From Date</label>
+            <input type="date" id="fromDate">
+          </div>
+          <div class="export-form-field">
+            <label><i class="fas fa-calendar-day"></i> To Date</label>
+            <input type="date" id="toDate">
+          </div>
+        </div>
+
+        <div class="export-modal-buttons">
+          <button type="button" class="export-cancel-btn" onclick="closeExportModal()">Cancel</button>
+          <button type="submit" class="export-confirm-btn"><i class="fas fa-download"></i> Export</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1543,9 +1752,96 @@
       });
     }
 
-    function exportReport() {
-      showToast(`📊 Exporting ${currentTab} report...`, true);
-      setTimeout(() => showToast(`✓ Report exported successfully`, true), 1000);
+    function openExportModal() {
+      document.getElementById('exportModal').style.display = 'flex';
+      // Set default dates
+      const today = new Date();
+      const weekAgo = new Date(today);
+      weekAgo.setDate(today.getDate() - 7);
+      const monthAgo = new Date(today);
+      monthAgo.setMonth(today.getMonth() - 1);
+
+      document.getElementById('fromDate').value = weekAgo.toISOString().split('T')[0];
+      document.getElementById('toDate').value = today.toISOString().split('T')[0];
+    }
+
+    function closeExportModal() {
+      document.getElementById('exportModal').style.display = 'none';
+    }
+
+    function toggleDateRange() {
+      const rangeSelect = document.getElementById('dateRangeSelect');
+      const customRange = document.getElementById('customDateRange');
+      customRange.style.display = rangeSelect.value === 'custom' ? 'block' : 'none';
+    }
+
+    function getDateRange() {
+      const rangeSelect = document.getElementById('dateRangeSelect').value;
+      const today = new Date();
+      let fromDate, toDate;
+
+      switch (rangeSelect) {
+        case 'daily':
+          fromDate = today.toLocaleDateString();
+          toDate = today.toLocaleDateString();
+          break;
+        case 'weekly':
+          const weekAgo = new Date(today);
+          weekAgo.setDate(today.getDate() - 7);
+          fromDate = weekAgo.toLocaleDateString();
+          toDate = today.toLocaleDateString();
+          break;
+        case 'monthly':
+          const monthAgo = new Date(today);
+          monthAgo.setMonth(today.getMonth() - 1);
+          fromDate = monthAgo.toLocaleDateString();
+          toDate = today.toLocaleDateString();
+          break;
+        case 'custom':
+          fromDate = new Date(document.getElementById('fromDate').value).toLocaleDateString();
+          toDate = new Date(document.getElementById('toDate').value).toLocaleDateString();
+          break;
+      }
+
+      return {
+        fromDate,
+        toDate
+      };
+    }
+
+    function exportReportData(event) {
+      event.preventDefault();
+
+      const rangeSelect = document.getElementById('dateRangeSelect').value;
+      const {
+        fromDate,
+        toDate
+      } = getDateRange();
+      const reportType = currentTab === 'attendance' ? 'Attendance' : (currentTab === 'leave' ? 'Leave' : 'Employee');
+
+      let message = '';
+
+      switch (rangeSelect) {
+        case 'daily':
+          message = `📊 Exporting ${reportType} Report for ${fromDate}`;
+          break;
+        case 'weekly':
+          message = `📊 Exporting ${reportType} Report for Week (${fromDate} - ${toDate})`;
+          break;
+        case 'monthly':
+          message = `📊 Exporting ${reportType} Report for Month (${fromDate} - ${toDate})`;
+          break;
+        case 'custom':
+          message = `📊 Exporting ${reportType} Report (${fromDate} - ${toDate})`;
+          break;
+      }
+
+      showToast(message, true);
+
+      setTimeout(() => {
+        showToast(`✓ ${reportType} Report exported successfully!`, true);
+        closeExportModal();
+      }, 1500);
     }
 
     function showToast(message, isSuccess = true) {
@@ -1633,6 +1929,14 @@
       navs.forEach(nav => nav.classList.remove('active'));
       const reportsNav = Array.from(navs).find(n => n.innerText.includes('Reports'));
       if (reportsNav) reportsNav.classList.add('active');
+    });
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(e) {
+      const modal = document.getElementById('exportModal');
+      if (modal && e.target === modal) {
+        closeExportModal();
+      }
     });
   </script>
 </body>
